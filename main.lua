@@ -8,10 +8,10 @@ ventana = {
 jugador = {
     y = 0,
     x = 0,
-    alto,
-    ancho,
-    origen_x,
-    origen_y,
+    alto = 0,
+    ancho = 0,
+    origen_x = 0,
+    origen_y = 0 ,
     velocidad = 72,
     sprite = nil
 }
@@ -19,7 +19,10 @@ jugador = {
 enemigo = {
     y = 100,
     x = 100,
-    sprite = nil
+    sprite = nil,
+    velocidad = 18,
+    origen_x = 0,
+    origen_y = 0
 }
 function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
@@ -28,15 +31,18 @@ function love.load()
     -- Cargar Assets
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
-    -- Calcular Alto y Ancho del Sprite
+    -- Calcular Alto y Ancho del Sprite Jugador
     jugador.ancho = jugador.sprite:getWidth()
     jugador.alto  = jugador.sprite:getHeight()
+    -- Calcular Alto y Ancho del Sprite Enemigo
+    enemigo.origen_x = enemigo.sprite:getWidth() / 2
+    enemigo.origen_y = enemigo.sprite:getHeight() / 2
     -- Calcular Centro
     jugador.origen_x = jugador.ancho/2
     jugador.origen_y = jugador.alto/2
     -- Centrar Jugador
-    jugador.x = ventana.alto / 2
-    jugador.y = ventana.ancho / 2
+    jugador.x = ventana.ancho / 2
+    jugador.y = ventana.alto / 2
 end
 
 function love.update(dt)
@@ -49,7 +55,20 @@ function love.update(dt)
     elseif love.keyboard.isDown("up") then
         jugador.y = jugador.y - (jugador.velocidad * dt)
     end
+    -- Persecución
+    if enemigo.x < jugador.x then
+        enemigo.x = enemigo.x + (enemigo.velocidad * dt)
+    elseif enemigo.x > jugador.x then
+        enemigo.x = enemigo.x - (enemigo.velocidad * dt)
+    end
+
+    if enemigo.y < jugador.y then
+        enemigo.y = enemigo.y + (enemigo.velocidad * dt)
+    elseif enemigo.y > jugador.y then
+        enemigo.y = enemigo.y - (enemigo.velocidad * dt)
+    end
 end
+
 
 function redondear(n)
   return math.floor(n + 0.5)
@@ -59,7 +78,7 @@ function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
-        love.graphics.draw(enemigo.sprite,enemigo.x,enemigo.y,0)
+        love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
         --love.graphics.circle("fill", jugador.x, jugador.y, 1)
     love.graphics.setCanvas()
     love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
