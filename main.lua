@@ -7,6 +7,10 @@ y = 0
 x = 0
 img = love.graphics.newImage("img/Ninja.png")
 
+enemigo_y = 100
+enemigo_x = 100
+enemigo_img = love.graphics.newImage("img/Samurai.png")
+
 function love.load()
     love.window.setMode(ANCHO_VENTANA * ESCALA, ALTO_VENTANA * ESCALA)
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -17,6 +21,7 @@ function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         love.graphics.draw(img,x,y,0)
+        love.graphics.draw(enemigo_img,enemigo_x,enemigo_y,0)
     love.graphics.setCanvas()
 
     love.graphics.draw(lienzo, 0, 0, 0, ESCALA, ESCALA)
