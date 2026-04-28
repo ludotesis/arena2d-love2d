@@ -2,10 +2,12 @@
 ANCHO_VENTANA = 160
 ALTO_VENTANA  = 144
 ESCALA = 4
-
-y = 0
-x = 0
-img = love.graphics.newImage("img/Ninja.png")
+-- Entidades
+jugador = {
+    y = 0,
+    x = 0,
+    sprite = nil
+}
 
 enemigo_y = 100
 enemigo_x = 100
@@ -15,12 +17,14 @@ function love.load()
     love.window.setMode(ANCHO_VENTANA * ESCALA, ALTO_VENTANA * ESCALA)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo = love.graphics.newCanvas(ANCHO_VENTANA, ALTO_VENTANA)
+
+    jugador.sprite = love.graphics.newImage("img/Ninja.png")
 end
 
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
-        love.graphics.draw(img,x,y,0)
+        love.graphics.draw(jugador.sprite,jugador.x,jugador.y,0)
         love.graphics.draw(enemigo_img,enemigo_x,enemigo_y,0)
     love.graphics.setCanvas()
 
