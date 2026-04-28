@@ -10,6 +10,8 @@ jugador = {
     x = 0,
     alto,
     ancho,
+    origen_x,
+    origen_y,
     sprite = nil
 }
 -- Tabla Enemigo
@@ -28,6 +30,9 @@ function love.load()
     -- Calcular Alto y Ancho del Sprite
     jugador.ancho = jugador.sprite:getWidth()
     jugador.alto  = jugador.sprite:getHeight()
+    -- Calcular Centro
+    jugador.origen_x = jugador.ancho/2
+    jugador.origen_y = jugador.alto/2
     -- Centrar Jugador
     jugador.x = ventana.alto / 2
     jugador.y = ventana.ancho / 2
@@ -36,7 +41,7 @@ end
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
-        love.graphics.draw(jugador.sprite,jugador.x,jugador.y,0,1,1,jugador.ancho/2, jugador.alto/2)
+        love.graphics.draw(jugador.sprite,jugador.x,jugador.y,0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,enemigo.x,enemigo.y,0)
         love.graphics.circle("fill", jugador.x, jugador.y, 1)
     love.graphics.setCanvas()
