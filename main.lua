@@ -23,6 +23,9 @@ function love.load()
     -- Cargar Assets
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
+    -- Centrar Jugador
+    jugador.x = ventana.alto / 2
+    jugador.y = ventana.ancho / 2
 end
 
 function love.draw()
@@ -30,6 +33,7 @@ function love.draw()
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,jugador.x,jugador.y,0)
         love.graphics.draw(enemigo.sprite,enemigo.x,enemigo.y,0)
+        love.graphics.circle("fill", jugador.x, jugador.y, 1)
     love.graphics.setCanvas()
 
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
