@@ -30,6 +30,14 @@ enemigo = {
     velocidad = 40,
     sprite = nil
 }
+atrapado = false
+-- ================= FUNCIONES ==========================
+function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
+    return x1 < x2 + ancho2 and
+           x2 < x1 + ancho1 and
+           y1 < y2 + alto2 and
+           y2 < y1 + alto1
+end
 function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -66,7 +74,7 @@ function love.update(dt)
     local dist_x = math.abs(enemigo.x - jugador.x)
     local dist_y = math.abs(enemigo.y - jugador.y)
 
-    if dist_x > dist_y then
+    if dist_x > jugador.ancho then
         if dist_x > jugador.ancho then
             if enemigo.x < jugador.x then
                 enemigo.x = enemigo.x + (enemigo.velocidad * dt)
@@ -88,8 +96,18 @@ function love.update(dt)
     jugador.hitbox_y = jugador.y - jugador.origen_y
     enemigo.hitbox_x = enemigo.x - enemigo.origen_x
     enemigo.hitbox_y = enemigo.y - enemigo.origen_y
+    -- Verificar Colision AABB
+    atrapado = comprobarColision(
+        jugador.hitbox_x,
+        jugador.hitbox_y,
+        jugador.ancho,
+        jugador.alto,
+        enemigo.hitbox_x,
+        enemigo.hitbox_y,
+        enemigo.ancho,
+        enemigo.alto
+    )
 end
-
 
 function redondear(n)
   return math.floor(n + 0.5)
@@ -105,6 +123,11 @@ function love.draw()
         love.graphics.rectangle("line", enemigo.hitbox_x, enemigo.hitbox_y, enemigo.ancho, enemigo.alto)
         --love.graphics.circle("fill", jugador.x, jugador.y, 1)
     love.graphics.setCanvas()
+   
     love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
+    if atrapado then
+        love.graphics.print("ATRAPADO", 100, 10)
+    end
+
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
 end
