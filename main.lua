@@ -56,16 +56,20 @@ function love.update(dt)
         jugador.y = jugador.y - (jugador.velocidad * dt)
     end
     -- Persecución
-    if enemigo.x < jugador.x then
-        enemigo.x = enemigo.x + (enemigo.velocidad * dt)
-    elseif enemigo.x > jugador.x then
-        enemigo.x = enemigo.x - (enemigo.velocidad * dt)
+    if math.abs(enemigo.x - jugador.x) > jugador.ancho then
+        if enemigo.x < jugador.x then
+            enemigo.x = enemigo.x + (enemigo.velocidad * dt)
+        elseif enemigo.x > jugador.x then
+            enemigo.x = enemigo.x - (enemigo.velocidad * dt)
+        end
     end
 
-    if enemigo.y < jugador.y then
-        enemigo.y = enemigo.y + (enemigo.velocidad * dt)
-    elseif enemigo.y > jugador.y then
-        enemigo.y = enemigo.y - (enemigo.velocidad * dt)
+    if math.abs(enemigo.y - jugador.y) > jugador.alto then
+        if enemigo.y < jugador.y then
+            enemigo.y = enemigo.y + (enemigo.velocidad * dt)
+        elseif enemigo.y > jugador.y then
+            enemigo.y = enemigo.y - (enemigo.velocidad * dt)
+        end
     end
 end
 
