@@ -11,7 +11,9 @@ jugador = {
     alto = 0,
     ancho = 0,
     origen_x = 0,
-    origen_y = 0 ,
+    origen_y = 0,
+    hitbox_x = 0,
+    hitbox_y = 0,
     velocidad = 72,
     sprite = nil
 }
@@ -19,10 +21,14 @@ jugador = {
 enemigo = {
     y = 100,
     x = 100,
-    sprite = nil,
-    velocidad = 40,
+    alto = 0,
+    ancho = 0,
     origen_x = 0,
-    origen_y = 0
+    origen_y = 0,
+    hitbox_x = 0,
+    hitbox_y = 0,
+    velocidad = 40,
+    sprite = nil
 }
 function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
@@ -31,15 +37,16 @@ function love.load()
     -- Cargar Assets
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
-    -- Calcular Alto y Ancho del Sprite Jugador
+    -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
     jugador.alto  = jugador.sprite:getHeight()
-    -- Calcular Alto y Ancho del Sprite Enemigo
-    enemigo.origen_x = enemigo.sprite:getWidth() / 2
-    enemigo.origen_y = enemigo.sprite:getHeight() / 2
-    -- Calcular Centro
+    enemigo.ancho = enemigo.sprite:getWidth()
+    enemigo.alto  = enemigo.sprite:getHeight()
+    -- Calcular Centros
     jugador.origen_x = jugador.ancho/2
     jugador.origen_y = jugador.alto/2
+    enemigo.origen_x = enemigo.ancho/2
+    enemigo.origen_y = enemigo.alto/2
     -- Centrar Jugador
     jugador.x = ventana.ancho / 2
     jugador.y = ventana.alto / 2
@@ -76,6 +83,11 @@ function love.update(dt)
             end
         end
     end
+    -- Calcular Hitboxes
+    jugador.hitbox_x = jugador.x - jugador.origen_x
+    jugador.hitbox_y = jugador.y - jugador.origen_y
+    enemigo.hitbox_x = enemigo.x - enemigo.origen_x
+    enemigo.hitbox_y = enemigo.y - enemigo.origen_y
 end
 
 
@@ -89,8 +101,8 @@ function love.draw()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
 
-        love.graphics.rectangle("line", jugador.x - jugador.origen_x , jugador.y - jugador.origen_y, jugador.ancho, jugador.alto)
-        love.graphics.rectangle("line", enemigo.x, enemigo.y, 16, 16)
+        love.graphics.rectangle("line", jugador.hitbox_x , jugador.hitbox_y, jugador.ancho, jugador.alto)
+        love.graphics.rectangle("line", enemigo.hitbox_x, enemigo.hitbox_y, enemigo.ancho, enemigo.alto)
         --love.graphics.circle("fill", jugador.x, jugador.y, 1)
     love.graphics.setCanvas()
     love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
