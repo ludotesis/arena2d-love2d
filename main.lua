@@ -12,7 +12,7 @@ jugador = {
     ancho,
     origen_x,
     origen_y,
-    velocidad = 50,
+    velocidad = 72,
     sprite = nil
 }
 -- Tabla Enemigo
@@ -54,13 +54,17 @@ function love.update(dt)
     end
 end
 
+function redondear(n)
+  return math.floor(n + 0.5)
+end
+
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
-        love.graphics.draw(jugador.sprite,jugador.x,jugador.y,0,1,1, jugador.origen_x, jugador.origen_y)
+        love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,enemigo.x,enemigo.y,0)
-        love.graphics.circle("fill", jugador.x, jugador.y, 1)
+        --love.graphics.circle("fill", jugador.x, jugador.y, 1)
     love.graphics.setCanvas()
-
+    love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
 end
