@@ -8,6 +8,8 @@ ventana = {
 jugador = {
     y = 0,
     x = 0,
+    alto,
+    ancho,
     sprite = nil
 }
 -- Tabla Enemigo
@@ -23,6 +25,9 @@ function love.load()
     -- Cargar Assets
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
+    -- Calcular Alto y Ancho del Sprite
+    jugador.ancho = jugador.sprite:getWidth()
+    jugador.alto  = jugador.sprite:getHeight()
     -- Centrar Jugador
     jugador.x = ventana.alto / 2
     jugador.y = ventana.ancho / 2
@@ -31,7 +36,7 @@ end
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
-        love.graphics.draw(jugador.sprite,jugador.x,jugador.y,0)
+        love.graphics.draw(jugador.sprite,jugador.x,jugador.y,0,1,1,jugador.ancho/2, jugador.alto/2)
         love.graphics.draw(enemigo.sprite,enemigo.x,enemigo.y,0)
         love.graphics.circle("fill", jugador.x, jugador.y, 1)
     love.graphics.setCanvas()
