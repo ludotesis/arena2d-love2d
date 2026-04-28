@@ -20,7 +20,7 @@ enemigo = {
     y = 100,
     x = 100,
     sprite = nil,
-    velocidad = 18,
+    velocidad = 40,
     origen_x = 0,
     origen_y = 0
 }
@@ -56,19 +56,24 @@ function love.update(dt)
         jugador.y = jugador.y - (jugador.velocidad * dt)
     end
     -- Persecución
-    if math.abs(enemigo.x - jugador.x) > jugador.ancho then
-        if enemigo.x < jugador.x then
-            enemigo.x = enemigo.x + (enemigo.velocidad * dt)
-        elseif enemigo.x > jugador.x then
-            enemigo.x = enemigo.x - (enemigo.velocidad * dt)
-        end
-    end
+    local dist_x = math.abs(enemigo.x - jugador.x)
+    local dist_y = math.abs(enemigo.y - jugador.y)
 
-    if math.abs(enemigo.y - jugador.y) > jugador.alto then
-        if enemigo.y < jugador.y then
-            enemigo.y = enemigo.y + (enemigo.velocidad * dt)
-        elseif enemigo.y > jugador.y then
-            enemigo.y = enemigo.y - (enemigo.velocidad * dt)
+    if dist_x > dist_y then
+        if dist_x > jugador.ancho then
+            if enemigo.x < jugador.x then
+                enemigo.x = enemigo.x + (enemigo.velocidad * dt)
+            elseif enemigo.x > jugador.x then
+                enemigo.x = enemigo.x - (enemigo.velocidad * dt)
+            end
+        end
+    else
+        if dist_y > jugador.alto then
+            if enemigo.y < jugador.y then
+                enemigo.y = enemigo.y + (enemigo.velocidad * dt)
+            elseif enemigo.y > jugador.y then
+                enemigo.y = enemigo.y - (enemigo.velocidad * dt)
+            end
         end
     end
 end
