@@ -31,6 +31,7 @@ enemigo = {
     sprite = nil
 }
 atrapado = false
+depurar  = false
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -38,6 +39,29 @@ function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
            y1 < y2 + alto2 and
            y2 < y1 + alto1
 end
+
+function redondear(n)
+  return math.floor(n + 0.5)
+end
+
+function debugUI()
+    love.graphics.setColor(0, 1, 0)
+    love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
+    if atrapado then
+        love.graphics.print("ATRAPADO", 100, 10)
+    end
+    love.graphics.setColor(1, 1, 1)
+end
+
+function debugHiboxes()
+    love.graphics.setColor(1, 0, 0)
+    love.graphics.rectangle("line", redondear(jugador.hitbox_x) , redondear(jugador.hitbox_y), jugador.ancho, jugador.alto)
+    love.graphics.rectangle("line", redondear(enemigo.hitbox_x), redondear(enemigo.hitbox_y), enemigo.ancho, enemigo.alto)
+    love.graphics.circle("fill", redondear(jugador.x), redondear(jugador.y), 1)
+    love.graphics.circle("fill", redondear(enemigo.x), redondear(enemigo.y), 1)
+    love.graphics.setColor(1, 1, 1)
+end
+-- =================== INICIALIZACION ===================
 function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -59,6 +83,18 @@ function love.load()
     jugador.x = ventana.ancho / 2
     jugador.y = ventana.alto / 2
 end
+-- =================== INTERACCION ===================
+function love.keypressed(key, scancode, isrepeat)
+   if key == "f1" then
+      depurar = true
+   end
+end
+
+function love.keyreleased(key)
+   if key == "f1" then
+      depurar = false
+   end
+end
 
 function love.update(dt)
     if love.keyboard.isDown("right") then
@@ -74,7 +110,7 @@ function love.update(dt)
     local dist_x = math.abs(enemigo.x - jugador.x)
     local dist_y = math.abs(enemigo.y - jugador.y)
 
-    if dist_x > jugador.ancho then
+    if dist_x > dist_y then
         if dist_x > jugador.ancho then
             if enemigo.x < jugador.x then
                 enemigo.x = enemigo.x + (enemigo.velocidad * dt)
@@ -109,25 +145,17 @@ function love.update(dt)
     )
 end
 
-function redondear(n)
-  return math.floor(n + 0.5)
-end
-
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
-
-        love.graphics.rectangle("line", jugador.hitbox_x , jugador.hitbox_y, jugador.ancho, jugador.alto)
-        love.graphics.rectangle("line", enemigo.hitbox_x, enemigo.hitbox_y, enemigo.ancho, enemigo.alto)
-        --love.graphics.circle("fill", jugador.x, jugador.y, 1)
+        if depurar then
+            debugHiboxes()
+        end
     love.graphics.setCanvas()
-   
-    love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
-    if atrapado then
-        love.graphics.print("ATRAPADO", 100, 10)
-    end
-
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
+    if depurar then
+        debugUI()
+    end
 end
