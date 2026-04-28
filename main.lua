@@ -12,6 +12,7 @@ jugador = {
     ancho,
     origen_x,
     origen_y,
+    velocidad = 50,
     sprite = nil
 }
 -- Tabla Enemigo
@@ -36,6 +37,21 @@ function love.load()
     -- Centrar Jugador
     jugador.x = ventana.alto / 2
     jugador.y = ventana.ancho / 2
+end
+
+function love.update(dt)
+    if love.keyboard.isDown("right") then
+        jugador.x = jugador.x + (jugador.velocidad * dt)
+    end
+    if love.keyboard.isDown("left") then
+        jugador.x = jugador.x - (jugador.velocidad * dt)
+    end
+    if love.keyboard.isDown("down") then
+        jugador.y = jugador.y + (jugador.velocidad * dt)
+    end
+    if love.keyboard.isDown("up") then
+        jugador.y = jugador.y - (jugador.velocidad * dt)
+    end
 end
 
 function love.draw()
