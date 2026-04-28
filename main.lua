@@ -53,7 +53,7 @@ function debugUI()
     love.graphics.setColor(1, 1, 1)
 end
 
-function debugHiboxes()
+function debugHitboxes()
     love.graphics.setColor(1, 0, 0)
     love.graphics.rectangle("line", redondear(jugador.hitbox_x) , redondear(jugador.hitbox_y), jugador.ancho, jugador.alto)
     love.graphics.rectangle("line", redondear(enemigo.hitbox_x), redondear(enemigo.hitbox_y), enemigo.ancho, enemigo.alto)
@@ -86,13 +86,7 @@ end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
    if key == "f1" then
-      depurar = true
-   end
-end
-
-function love.keyreleased(key)
-   if key == "f1" then
-      depurar = false
+      depurar = not depurar
    end
 end
 
@@ -151,7 +145,7 @@ function love.draw()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
         if depurar then
-            debugHiboxes()
+            debugHitboxes()
         end
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
