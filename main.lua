@@ -15,7 +15,13 @@ jugador = {
     hitbox_x = 0,
     hitbox_y = 0,
     velocidad = 72,
-    sprite = nil
+    sprite = nil,
+    spritesheet = nil,
+    correr = {
+        quads = {},
+        indice = 1,
+        activado = true
+    }
 }
 -- Tabla Enemigo
 enemigo = {
@@ -85,11 +91,15 @@ function love.load()
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
     ataque.spritesheet = love.graphics.newImage("img/CortarSprites.png")
     aura.spritesheet = love.graphics.newImage("img/AuraSprites.png")
+    jugador.spritesheet = love.graphics.newImage("img/NinjaSprites.png")
     for i = 0, 3 do
         table.insert(ataque.quads, love.graphics.newQuad(32 * i ,0,32,32, ataque.spritesheet))
     end
     for i = 0, 4 do
         table.insert(aura.quads, love.graphics.newQuad(25 * i ,0,25,24, aura.spritesheet))
+    end
+    for i = 0, 3 do
+        table.insert(jugador.correr.quads, love.graphics.newQuad(0,16* i,16,16, jugador.spritesheet))
     end
     -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
@@ -160,6 +170,13 @@ function love.update(dt)
             aura.indice = 1
         end
     end
+    -- Actualizar Correr
+    if jugador.correr.activado then
+        jugador.correr.indice = jugador.correr.indice + (10 * dt)
+        if jugador.correr.indice >= #jugador.correr.quads + 1 then
+            jugador.correr.indice = 1
+        end
+    end
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
     jugador.hitbox_y = jugador.y - jugador.origen_y
@@ -187,8 +204,11 @@ end
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
-        love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
+        if jugador.correr.activado then
+            local i = math.floor(jugador.correr.indice)
+            love.graphics.draw(jugador.spritesheet, jugador.correr.quads[i],redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)    
+        end
         if ataque.activado then
             local i = math.floor(ataque.indice)
             love.graphics.draw(ataque.spritesheet,ataque.quads[i], jugador.x, jugador.y,0,1,1, jugador.origen_x + 8, jugador.origen_y + 8)
