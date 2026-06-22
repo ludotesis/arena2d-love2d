@@ -32,12 +32,19 @@ enemigo = {
 }
 atrapado = false
 depurar  = false
--- Corte
+-- Ataque
 ataque = {
     spritesheet = nil,
     quads = {},
     indice = 1,
     activado = false
+}
+-- Aura
+aura = {
+    spritesheet = nil,
+    quads = {},
+    indice = 1,
+    activado = true
 }
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
@@ -77,9 +84,12 @@ function love.load()
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
     ataque.spritesheet = love.graphics.newImage("img/CortarSprites.png")
-    --quad =  love.graphics.newQuad(0,0,dimension,dimension, spritesheet)
+    aura.spritesheet = love.graphics.newImage("img/AuraSprites.png")
     for i = 0, 3 do
         table.insert(ataque.quads, love.graphics.newQuad(32 * i ,0,32,32, ataque.spritesheet))
+    end
+    for i = 0, 4 do
+        table.insert(aura.quads, love.graphics.newQuad(25 * i ,0,25,24, aura.spritesheet))
     end
     -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
@@ -135,12 +145,19 @@ function love.update(dt)
             end
         end
     end
-    -- Actualizar Animacion
+    -- Actualizar Ataque
     if ataque.activado then
         ataque.indice = ataque.indice + (12 * dt)
         if ataque.indice >= #ataque.quads + 1 then
             ataque.indice = 1
             ataque.activado = false
+        end
+    end
+    -- Actualizar Aura
+    if aura.activado then
+        aura.indice = aura.indice + (12 * dt)
+        if aura.indice >= #aura.quads + 1 then
+            aura.indice = 1
         end
     end
     -- Calcular Hitboxes
@@ -167,8 +184,12 @@ function love.draw()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
         if ataque.activado then
-        local i = math.floor(ataque.indice)
+            local i = math.floor(ataque.indice)
             love.graphics.draw(ataque.spritesheet,ataque.quads[i], jugador.x, jugador.y,0,1,1, jugador.origen_x + 8, jugador.origen_y + 8)
+        end
+        if aura.activado then
+            local i = math.floor(aura.indice)
+            love.graphics.draw(aura.spritesheet,aura.quads[i], 32,32)
         end
         if depurar then
             debugHitboxes()
