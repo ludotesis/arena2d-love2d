@@ -1,3 +1,4 @@
+require("animaciones")
 -- Tabla Ventana
 ventana = {
     ancho  = 160,
@@ -16,12 +17,7 @@ jugador = {
     hitbox_y = 0,
     velocidad = 72,
     sprite = nil,
-    spritesheet = nil,
-    correr = {
-        quads = {},
-        indice = 1,
-        activado = true
-    }
+    correr = nil,
 }
 -- Tabla Enemigo
 enemigo = {
@@ -39,19 +35,9 @@ enemigo = {
 atrapado = false
 depurar  = false
 -- Ataque
-ataque = {
-    spritesheet = nil,
-    quads = {},
-    indice = 1,
-    activado = false
-}
+ataque = nil
 -- Aura
-aura = {
-    spritesheet = nil,
-    quads = {},
-    indice = 1,
-    activado = true
-}
+aura = nil
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -89,18 +75,12 @@ function love.load()
     -- Cargar Assets
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
-    ataque.spritesheet = love.graphics.newImage("img/CortarSprites.png")
-    aura.spritesheet = love.graphics.newImage("img/AuraSprites.png")
-    jugador.spritesheet = love.graphics.newImage("img/NinjaSprites.png")
-    for i = 0, 3 do
-        table.insert(ataque.quads, love.graphics.newQuad(32 * i ,0,32,32, ataque.spritesheet))
-    end
-    for i = 0, 4 do
-        table.insert(aura.quads, love.graphics.newQuad(25 * i ,0,25,24, aura.spritesheet))
-    end
-    for i = 0, 3 do
-        table.insert(jugador.correr.quads, love.graphics.newQuad(0,16* i,16,16, jugador.spritesheet))
-    end
+    -- Cargar Animaciones
+    ataque = CrearAnimacion("img/CortarSprites.png",3,32,32,12, false)
+    ataque.activado = false
+    aura   = CrearAnimacion("img/AuraSprites.png",4,25,24,12, false)
+    jugador.correr = CrearAnimacion("img/NinjaSprites.png",3,16,16,12, true)
+    jugador.correr.activado = true
     -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
     jugador.alto  = jugador.sprite:getHeight()
@@ -207,7 +187,7 @@ function love.draw()
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
         if jugador.correr.activado then
             local i = math.floor(jugador.correr.indice)
-            love.graphics.draw(jugador.spritesheet, jugador.correr.quads[i],redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)    
+            love.graphics.draw(jugador.correr.spritesheet, jugador.correr.quads[i],redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)    
         end
         if ataque.activado then
             local i = math.floor(ataque.indice)
