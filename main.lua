@@ -33,10 +33,12 @@ enemigo = {
 atrapado = false
 depurar  = false
 -- Corte
-spritesheet = nil
-quads = {}
-indice = 1
-atacando = false
+ataque = {
+    spritesheet = nil,
+    quads = {},
+    indice = 1,
+    activado = false
+}
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -74,10 +76,10 @@ function love.load()
     -- Cargar Assets
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
-    spritesheet = love.graphics.newImage("img/CortarSprites.png")
+    ataque.spritesheet = love.graphics.newImage("img/CortarSprites.png")
     --quad =  love.graphics.newQuad(0,0,dimension,dimension, spritesheet)
     for i = 0, 3 do
-        table.insert(quads, love.graphics.newQuad(32 * i ,0,32,32, spritesheet))
+        table.insert(ataque.quads, love.graphics.newQuad(32 * i ,0,32,32, ataque.spritesheet))
     end
     -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
@@ -97,8 +99,8 @@ end
 function love.keypressed(key, scancode, isrepeat)
    if key == "f1" then
       depurar = not depurar
-   elseif key == "space" and not atacando then
-      atacando = true
+   elseif key == "space" and not ataque.activado then
+      ataque.activado = true
    end
 end
 
@@ -134,11 +136,11 @@ function love.update(dt)
         end
     end
     -- Actualizar Animacion
-    if atacando then
-        indice = indice + (12 * dt)
-        if indice >= #quads + 1 then
-            indice = 1
-            atacando = false
+    if ataque.activado then
+        ataque.indice = ataque.indice + (12 * dt)
+        if ataque.indice >= #ataque.quads + 1 then
+            ataque.indice = 1
+            ataque.activado = false
         end
     end
     -- Calcular Hitboxes
@@ -164,9 +166,9 @@ function love.draw()
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
-        if atacando then
-        local i = math.floor(indice)
-            love.graphics.draw(spritesheet,quads[i], jugador.x, jugador.y,0,1,1, jugador.origen_x + 8, jugador.origen_y + 8)
+        if ataque.activado then
+        local i = math.floor(ataque.indice)
+            love.graphics.draw(ataque.spritesheet,ataque.quads[i], jugador.x, jugador.y,0,1,1, jugador.origen_x + 8, jugador.origen_y + 8)
         end
         if depurar then
             debugHitboxes()
