@@ -35,6 +35,7 @@ depurar  = false
 -- Corte
 spritesheet = nil
 quads = {}
+indice = 1
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -129,6 +130,11 @@ function love.update(dt)
             end
         end
     end
+    -- Actualizar Animacion
+    indice = indice + (8 * dt)
+    if indice >= #quads + 1 then
+        indice = 1
+    end
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
     jugador.hitbox_y = jugador.y - jugador.origen_y
@@ -152,7 +158,8 @@ function love.draw()
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
-        love.graphics.draw(spritesheet,quads[1], 32, 32)
+        local i = math.floor(indice)
+        love.graphics.draw(spritesheet,quads[i], 32, 32)
         if depurar then
             debugHitboxes()
         end
