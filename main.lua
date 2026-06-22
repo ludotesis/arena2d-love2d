@@ -34,7 +34,7 @@ atrapado = false
 depurar  = false
 -- Corte
 spritesheet = nil
-quad = nil
+quads = {}
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -73,7 +73,10 @@ function love.load()
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     enemigo.sprite = love.graphics.newImage("img/Samurai.png")
     spritesheet = love.graphics.newImage("img/CortarSprites.png")
-    quad =  love.graphics.newQuad(0,0,16,16, spritesheet)
+    --quad =  love.graphics.newQuad(0,0,dimension,dimension, spritesheet)
+    for i = 0, 3 do
+        table.insert(quads, love.graphics.newQuad(16 * i ,0,16,16, spritesheet))
+    end
     -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
     jugador.alto  = jugador.sprite:getHeight()
@@ -149,7 +152,7 @@ function love.draw()
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
-        love.graphics.draw(spritesheet,quad, 32, 32)
+        love.graphics.draw(spritesheet,quads[1], 32, 32)
         if depurar then
             debugHitboxes()
         end
