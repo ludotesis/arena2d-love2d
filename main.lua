@@ -176,6 +176,12 @@ function love.update(dt)
         enemigo.ancho,
         enemigo.alto
     )
+    -- Activacion de Aura
+    if atrapado then
+        aura.activado = false
+    else
+        aura.activado = true
+    end
 end
 
 function love.draw()
@@ -189,7 +195,7 @@ function love.draw()
         end
         if aura.activado then
             local i = math.floor(aura.indice)
-            love.graphics.draw(aura.spritesheet,aura.quads[i], 32,32)
+            love.graphics.draw(aura.spritesheet,aura.quads[i], enemigo.x, enemigo.y, 0, 1, 1, enemigo.origen_x + 4  , enemigo.origen_y + 4 )
         end
         if depurar then
             debugHitboxes()
