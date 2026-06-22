@@ -36,6 +36,7 @@ depurar  = false
 spritesheet = nil
 quads = {}
 indice = 1
+atacando = false
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -76,7 +77,7 @@ function love.load()
     spritesheet = love.graphics.newImage("img/CortarSprites.png")
     --quad =  love.graphics.newQuad(0,0,dimension,dimension, spritesheet)
     for i = 0, 3 do
-        table.insert(quads, love.graphics.newQuad(16 * i ,0,16,16, spritesheet))
+        table.insert(quads, love.graphics.newQuad(32 * i ,0,32,32, spritesheet))
     end
     -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
@@ -96,6 +97,8 @@ end
 function love.keypressed(key, scancode, isrepeat)
    if key == "f1" then
       depurar = not depurar
+   elseif key == "space" and not atacando then
+      atacando = true
    end
 end
 
@@ -131,9 +134,12 @@ function love.update(dt)
         end
     end
     -- Actualizar Animacion
-    indice = indice + (8 * dt)
-    if indice >= #quads + 1 then
-        indice = 1
+    if atacando then
+        indice = indice + (12 * dt)
+        if indice >= #quads + 1 then
+            indice = 1
+            atacando = false
+        end
     end
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
@@ -158,8 +164,10 @@ function love.draw()
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
+        if atacando then
         local i = math.floor(indice)
-        love.graphics.draw(spritesheet,quads[i], 32, 32)
+            love.graphics.draw(spritesheet,quads[i], jugador.x, jugador.y,0,1,1, jugador.origen_x + 8, jugador.origen_y + 8)
+        end
         if depurar then
             debugHitboxes()
         end
