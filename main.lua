@@ -138,13 +138,6 @@ function love.update(dt)
     ActualizarAnimacion(ataque,dt, true)
     ActualizarAnimacion(aura,dt, false)
     ActualizarAnimacion(jugador.correr,dt, false)
-    -- Actualizar Correr
-    if jugador.correr.activado then
-        jugador.correr.indice = jugador.correr.indice + (10 * dt)
-        if jugador.correr.indice >= #jugador.correr.quads + 1 then
-            jugador.correr.indice = 1
-        end
-    end
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
     jugador.hitbox_y = jugador.y - jugador.origen_y
@@ -173,18 +166,11 @@ function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
-        if jugador.correr.activado then
-            local i = math.floor(jugador.correr.indice)
-            love.graphics.draw(jugador.correr.spritesheet, jugador.correr.quads[i],redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)    
-        end
-        if ataque.activado then
-            local i = math.floor(ataque.indice)
-            love.graphics.draw(ataque.spritesheet,ataque.quads[i], jugador.x, jugador.y,0,1,1, jugador.origen_x + 8, jugador.origen_y + 8)
-        end
-        if aura.activado then
-            local i = math.floor(aura.indice)
-            love.graphics.draw(aura.spritesheet,aura.quads[i], enemigo.x, enemigo.y, 0, 1, 1, enemigo.origen_x + 4  , enemigo.origen_y + 4 )
-        end
+
+        DibujarAnimacion(jugador.correr, redondear(jugador.x), redondear(jugador.y), jugador.origen_x, jugador.origen_y)
+        DibujarAnimacion(ataque, redondear(jugador.x), redondear(jugador.y), jugador.origen_x + 8, jugador.origen_y + 8)
+        DibujarAnimacion(aura, redondear(enemigo.x), redondear(enemigo.y), enemigo.origen_x + 4  , enemigo.origen_y + 4)
+        
         if depurar then
             debugHitboxes()
         end
