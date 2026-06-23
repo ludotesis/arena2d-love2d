@@ -107,6 +107,8 @@ function love.load()
     -- Musica
     sonidos = {
         musica = love.audio.newSource("sounds/musica.ogg", "stream"),
+        victoria = love.audio.newSource("sounds/victoria.wav", "stream"),
+        derrota  = love.audio.newSource("sounds/derrota.wav", "stream"),
         sfx_ataque  = love.audio.newSource("sounds/cortar.wav", "static"),
         sfx_hit     = love.audio.newSource("sounds/hit.wav", "static"),
         sfx_whoosh  = love.audio.newSource("sounds/whoosh.wav", "static")
@@ -129,6 +131,11 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
+
+    if derrota or victoria then
+        return
+    end
+
     if love.keyboard.isDown("right") then
         jugador.x = jugador.x + (jugador.velocidad * dt)
         jugador.correr.activado = true
@@ -194,12 +201,16 @@ function love.update(dt)
            jugador.derrotados = jugador.derrotados + 1
            if jugador.derrotados == jugador.objetivo then
                 victoria = true
+                love.audio.stop(sonidos.musica)
+                love.audio.play(sonidos.victoria)
            end
         else
            love.audio.play(sonidos.sfx_hit)
            jugador.vidas = jugador.vidas - 1
            if jugador.vidas == 0 then
                 derrota = true
+                love.audio.stop(sonidos.musica)
+                love.audio.play(sonidos.derrota)
            end
         end
     else
@@ -225,7 +236,7 @@ function love.draw()
         end
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
-    
+
     if depurar then
         debugUI()
     end
