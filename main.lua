@@ -41,9 +41,7 @@ ataque = nil
 -- Aura
 aura = nil
 -- Sonidos
-musica = nil
-sfx_ataque = nil
-sfx_hit = nil
+sonidos = nil
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -101,12 +99,15 @@ function love.load()
     jugador.x = ventana.ancho / 2
     jugador.y = ventana.alto / 2
     -- Musica
-    musica = love.audio.newSource("sounds/musica.ogg", "stream")
-    sfx_ataque  = love.audio.newSource("sounds/cortar.wav", "static")
-    sfx_hit     = love.audio.newSource("sounds/hit.wav", "static")
-    musica:setLooping(true)
-    musica:setVolume(0.70)
-    love.audio.play(musica)
+    sonidos = {
+        musica = love.audio.newSource("sounds/musica.ogg", "stream"),
+        sfx_ataque  = love.audio.newSource("sounds/cortar.wav", "static"),
+        sfx_hit     = love.audio.newSource("sounds/hit.wav", "static"),
+        sfx_whoosh  = love.audio.newSource("sounds/whoosh.wav", "static")
+    }
+    sonidos.musica:setLooping(true)
+    sonidos.musica:setVolume(0.70)
+    love.audio.play(sonidos.musica)
     -- Iniciar Enemigo
     enemigo.x = enemigo.inicial_x
     enemigo.y = enemigo.inicial_y
@@ -117,7 +118,7 @@ function love.keypressed(key, scancode, isrepeat)
       depurar = not depurar
    elseif key == "space" and not ataque.activado then
       ataque.activado = true
-      love.audio.play(sfx_ataque)
+      love.audio.play(sonidos.sfx_ataque)
    end
 end
 
@@ -182,9 +183,10 @@ function love.update(dt)
         enemigo.x = enemigo.inicial_x
         enemigo.y = enemigo.inicial_y
         if ataque.activado then
-           love.audio.stop(sfx_hit)
+           love.audio.stop(sonidos.sfx_hit)
+           love.audio.play(sonidos.sfx_whoosh)
         else
-           love.audio.play(sfx_hit)
+           love.audio.play(sonidos.sfx_hit)
         end
     else
         aura.activado = true
