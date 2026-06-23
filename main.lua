@@ -40,6 +40,7 @@ ataque = nil
 aura = nil
 -- Sonidos
 musica = nil
+sfx_ataque = nil
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -98,6 +99,9 @@ function love.load()
     jugador.y = ventana.alto / 2
     -- Musica
     musica = love.audio.newSource("sounds/musica.ogg", "stream")
+    sfx_ataque  = love.audio.newSource("sounds/cortar.wav", "static")
+    musica:setLooping(true)
+    musica:setVolume(0.70)
     love.audio.play(musica)
 end
 -- =================== INTERACCION ===================
@@ -106,6 +110,7 @@ function love.keypressed(key, scancode, isrepeat)
       depurar = not depurar
    elseif key == "space" and not ataque.activado then
       ataque.activado = true
+      love.audio.play(sfx_ataque)
    end
 end
 
