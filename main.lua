@@ -38,6 +38,8 @@ depurar  = false
 ataque = nil
 -- Aura
 aura = nil
+-- Sonidos
+musica = nil
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -94,6 +96,9 @@ function love.load()
     -- Centrar Jugador
     jugador.x = ventana.ancho / 2
     jugador.y = ventana.alto / 2
+    -- Musica
+    musica = love.audio.newSource("sounds/musica.ogg", "stream")
+    love.audio.play(musica)
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
