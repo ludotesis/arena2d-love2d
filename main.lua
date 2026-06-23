@@ -107,12 +107,18 @@ end
 function love.update(dt)
     if love.keyboard.isDown("right") then
         jugador.x = jugador.x + (jugador.velocidad * dt)
+        jugador.correr.activado = true
     elseif love.keyboard.isDown("left") then
         jugador.x = jugador.x - (jugador.velocidad * dt)
+        jugador.correr.activado = true
     elseif love.keyboard.isDown("down") then
         jugador.y = jugador.y + (jugador.velocidad * dt)
+        jugador.correr.activado = true
     elseif love.keyboard.isDown("up") then
         jugador.y = jugador.y - (jugador.velocidad * dt)
+        jugador.correr.activado = true
+    else
+        jugador.correr.activado = false
     end
     -- Persecución
     local dist_x = math.abs(enemigo.x - jugador.x)
@@ -170,7 +176,11 @@ function love.draw()
         DibujarAnimacion(jugador.correr, redondear(jugador.x), redondear(jugador.y), jugador.origen_x, jugador.origen_y)
         DibujarAnimacion(ataque, redondear(jugador.x), redondear(jugador.y), jugador.origen_x + 8, jugador.origen_y + 8)
         DibujarAnimacion(aura, redondear(enemigo.x), redondear(enemigo.y), enemigo.origen_x + 4  , enemigo.origen_y + 4)
-        
+
+        if not jugador.correr.activado then
+            love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
+        end
+
         if depurar then
             debugHitboxes()
         end

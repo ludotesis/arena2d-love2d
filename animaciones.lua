@@ -33,7 +33,7 @@ function ActualizarAnimacion(animacion,dt, unaVez)
     end
 end
 -- =================== RENDERIZADO ===================
-function  DibujarAnimacion(animacion, x, y, origen_x, origen_y)
+function DibujarAnimacion(animacion, x, y, origen_x, origen_y)
     if animacion.activado then
         local i = math.floor(animacion.indice)
         love.graphics.draw(animacion.spritesheet, animacion.quads[i], x, y,0,1,1, origen_x, origen_y)
