@@ -19,7 +19,7 @@ jugador = {
     sprite = nil,
     correr = nil,
     vidas = 3,
-    objetivo = 5,
+    objetivo = 6,
     derrotados = 0
 }
 -- Tabla Enemigo
@@ -77,6 +77,23 @@ function debugHitboxes()
     love.graphics.circle("fill", redondear(enemigo.x), redondear(enemigo.y), 1)
     love.graphics.setColor(1, 1, 1)
 end
+
+function PosicionarEnemigo()
+    local borde = math.random(1, 4)
+    if borde == 1 then
+        enemigo.x = math.random(0, ventana.ancho)
+        enemigo.y = 0
+    elseif borde == 2 then
+        enemigo.x = math.random(0, ventana.ancho)
+        enemigo.y = ventana.alto
+    elseif borde == 3 then
+        enemigo.x = 0
+        enemigo.y = math.random(0, ventana.alto)
+    else
+        enemigo.x = ventana.ancho
+        enemigo.y = math.random(0, ventana.alto)
+    end
+end
 -- =================== INICIALIZACION ===================
 function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
@@ -117,8 +134,8 @@ function love.load()
     sonidos.musica:setVolume(0.70)
     love.audio.play(sonidos.musica)
     -- Iniciar Enemigo
-    enemigo.x = enemigo.inicial_x
-    enemigo.y = enemigo.inicial_y
+    math.randomseed(os.time())
+    PosicionarEnemigo()
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -193,8 +210,8 @@ function love.update(dt)
     )
     -- Activacion de Aura
     if atrapado then
-        enemigo.x = enemigo.inicial_x
-        enemigo.y = enemigo.inicial_y
+        PosicionarEnemigo()
+        enemigo.velocidad = enemigo.velocidad + 10
         if ataque.activado then
            love.audio.stop(sonidos.sfx_hit)
            love.audio.play(sonidos.sfx_whoosh)
