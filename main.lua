@@ -21,8 +21,10 @@ jugador = {
 }
 -- Tabla Enemigo
 enemigo = {
-    y = 100,
-    x = 100,
+    y = 0,
+    x = 0,
+    inicial_y = 130,
+    inicial_x = 130,
     alto = 0,
     ancho = 0,
     origen_x = 0,
@@ -105,6 +107,9 @@ function love.load()
     musica:setLooping(true)
     musica:setVolume(0.70)
     love.audio.play(musica)
+    -- Iniciar Enemigo
+    enemigo.x = enemigo.inicial_x
+    enemigo.y = enemigo.inicial_y
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -174,8 +179,13 @@ function love.update(dt)
     )
     -- Activacion de Aura
     if atrapado then
-        aura.activado = false
-        love.audio.play(sfx_hit)
+        enemigo.x = enemigo.inicial_x
+        enemigo.y = enemigo.inicial_y
+        if ataque.activado then
+           love.audio.stop(sfx_hit)
+        else
+           love.audio.play(sfx_hit)
+        end
     else
         aura.activado = true
     end
