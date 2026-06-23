@@ -18,6 +18,9 @@ jugador = {
     velocidad = 72,
     sprite = nil,
     correr = nil,
+    vidas = 3,
+    objetivo = 5,
+    derrotados = 0
 }
 -- Tabla Enemigo
 enemigo = {
@@ -42,6 +45,9 @@ ataque = nil
 aura = nil
 -- Sonidos
 sonidos = nil
+-- Estados
+derrota = false
+victoria = false
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -185,8 +191,16 @@ function love.update(dt)
         if ataque.activado then
            love.audio.stop(sonidos.sfx_hit)
            love.audio.play(sonidos.sfx_whoosh)
+           jugador.derrotados = jugador.derrotados + 1
+           if jugador.derrotados == jugador.objetivo then
+                victoria = true
+           end
         else
            love.audio.play(sonidos.sfx_hit)
+           jugador.vidas = jugador.vidas - 1
+           if jugador.vidas == 0 then
+                derrota = true
+           end
         end
     else
         aura.activado = true
@@ -211,7 +225,16 @@ function love.draw()
         end
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
+    
     if depurar then
         debugUI()
+    end
+
+    if not derrota then
+        love.graphics.print("Vidas "..jugador.vidas, 10 , 10)
+    end
+
+    if not victoria then
+        love.graphics.print("Objetivo "..jugador.derrotados.."/"..jugador.objetivo, (ventana.ancho * ventana.escala) - 100, 10)
     end
 end

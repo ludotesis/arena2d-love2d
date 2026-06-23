@@ -17,7 +17,6 @@ function CrearAnimacion(imagen, limite, ancho, alto, velocidad, esVertical)
             table.insert(animacion.quads, love.graphics.newQuad(ancho * i, 0, ancho, alto, animacion.spritesheet))
         end
     end
-
     return animacion
 end
 -- =================== ACTUALIZACION ===================
