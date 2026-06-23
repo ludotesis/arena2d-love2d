@@ -135,21 +135,9 @@ function love.update(dt)
             end
         end
     end
-    -- Actualizar Ataque
-    if ataque.activado then
-        ataque.indice = ataque.indice + (12 * dt)
-        if ataque.indice >= #ataque.quads + 1 then
-            ataque.indice = 1
-            ataque.activado = false
-        end
-    end
-    -- Actualizar Aura
-    if aura.activado then
-        aura.indice = aura.indice + (12 * dt)
-        if aura.indice >= #aura.quads + 1 then
-            aura.indice = 1
-        end
-    end
+    ActualizarAnimacion(ataque,dt, true)
+    ActualizarAnimacion(aura,dt, false)
+    ActualizarAnimacion(jugador.correr,dt, false)
     -- Actualizar Correr
     if jugador.correr.activado then
         jugador.correr.indice = jugador.correr.indice + (10 * dt)

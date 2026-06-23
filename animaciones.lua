@@ -20,3 +20,15 @@ function CrearAnimacion(imagen, limite, ancho, alto, velocidad, esVertical)
 
     return animacion
 end
+-- =================== ACTUALIZACION ===================
+function ActualizarAnimacion(animacion,dt, unaVez)
+    if animacion.activado then
+        animacion.indice = animacion.indice + (animacion.velocidad * dt)
+        if animacion.indice >= #animacion.quads + 1 then
+            animacion.indice = 1
+            if unaVez then
+                animacion.activado = false
+            end
+        end
+    end
+end
