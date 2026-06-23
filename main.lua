@@ -41,6 +41,7 @@ aura = nil
 -- Sonidos
 musica = nil
 sfx_ataque = nil
+sfx_hit = nil
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -100,6 +101,7 @@ function love.load()
     -- Musica
     musica = love.audio.newSource("sounds/musica.ogg", "stream")
     sfx_ataque  = love.audio.newSource("sounds/cortar.wav", "static")
+    sfx_hit     = love.audio.newSource("sounds/hit.wav", "static")
     musica:setLooping(true)
     musica:setVolume(0.70)
     love.audio.play(musica)
@@ -173,6 +175,7 @@ function love.update(dt)
     -- Activacion de Aura
     if atrapado then
         aura.activado = false
+        love.audio.play(sfx_hit)
     else
         aura.activado = true
     end
