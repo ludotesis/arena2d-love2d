@@ -12,12 +12,12 @@ enemigo = {
     sprite = nil
 }
 -- =================== INICIALIZACION ===================
-function enemigo.Crear()
-    enemigo.sprite = love.graphics.newImage("img/Caballero.png")
-    enemigo.ancho = enemigo.sprite:getWidth()
-    enemigo.alto  = enemigo.sprite:getHeight()
-    enemigo.origen_x = enemigo.ancho/2
-    enemigo.origen_y = enemigo.alto/2
+function enemigo.Crear(self, img)
+    self.sprite = love.graphics.newImage(img)
+    self.ancho = enemigo.sprite:getWidth()
+    self.alto  = enemigo.sprite:getHeight()
+    self.origen_x = enemigo.ancho/2
+    self.origen_y = enemigo.alto/2
 end
 -- =================== ACTUALIZAR ===================
 function Actualizar()

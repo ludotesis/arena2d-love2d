@@ -46,7 +46,9 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     jugador.Crear(ventana.ancho / 2,ventana.alto / 2)
-    enemigo.Crear()
+    local segundoEnemigo = enemigo
+    segundoEnemigo.Crear(segundoEnemigo, "img/Esqueleto.png")
+   
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
