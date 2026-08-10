@@ -8,7 +8,6 @@ ventana = {
     escala = 4
 }
 
-
 atrapado = false
 depurar  = false
 -- ================= FUNCIONES ==========================
@@ -46,6 +45,7 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     jugador.Crear(ventana.ancho / 2,ventana.alto / 2)
+    
     local segundoEnemigo = enemigo
     segundoEnemigo.Crear(segundoEnemigo, "img/Esqueleto.png")
    
@@ -110,7 +110,7 @@ function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
-        love.graphics.draw(enemigo.sprite,redondear(enemigo.x),redondear(enemigo.y),0, 1, 1, enemigo.origen_x, enemigo.origen_y)
+        enemigo.Dibujar(enemigo)
         if depurar then
             debugHitboxes()
         end

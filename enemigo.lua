@@ -24,6 +24,6 @@ function Actualizar()
     
 end
 -- =================== RENDERIZADO ===================
-function Dibujar()
-    
+function enemigo.Dibujar(self)
+    love.graphics.draw(self.sprite,redondear(self.x),redondear(self.y),0, 1, 1, self.origen_x, self.origen_y)
 end
