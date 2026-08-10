@@ -12,7 +12,7 @@ jugador = {
     sprite = nil
 }
 -- =================== INICIALIZACION ===================
-function CrearJugador(x, y)
+function jugador.Crear(x, y)
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
     jugador.ancho = jugador.sprite:getWidth()
     jugador.alto  = jugador.sprite:getHeight()

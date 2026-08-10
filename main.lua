@@ -45,8 +45,8 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo = love.graphics.newCanvas(ventana.ancho, ventana.alto)
-    CrearJugador(ventana.ancho / 2,ventana.alto / 2)
-    CrearEnemigo()
+    jugador.Crear(ventana.ancho / 2,ventana.alto / 2)
+    enemigo.Crear()
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
