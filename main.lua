@@ -68,7 +68,7 @@ function love.load()
     lienzo = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     -- Cargar Assets
     jugador.sprite = love.graphics.newImage("img/Ninja.png")
-    enemigo.sprite = love.graphics.newImage("img/Samurai.png")
+    enemigo.sprite = love.graphics.newImage("img/Caballero.png")
     -- Calcular Altos y Anchos 
     jugador.ancho = jugador.sprite:getWidth()
     jugador.alto  = jugador.sprite:getHeight()
