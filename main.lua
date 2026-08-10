@@ -1,35 +1,14 @@
+require "jugador"
+require "enemigo"
+
 -- Tabla Ventana
 ventana = {
     ancho  = 160,
     alto   = 144,
     escala = 4
 }
--- Tabla Jugador
-jugador = {
-    y = 0,
-    x = 0,
-    alto = 0,
-    ancho = 0,
-    origen_x = 0,
-    origen_y = 0,
-    hitbox_x = 0,
-    hitbox_y = 0,
-    velocidad = 72,
-    sprite = nil
-}
--- Tabla Enemigo
-enemigo = {
-    y = 100,
-    x = 100,
-    alto = 0,
-    ancho = 0,
-    origen_x = 0,
-    origen_y = 0,
-    hitbox_x = 0,
-    hitbox_y = 0,
-    velocidad = 40,
-    sprite = nil
-}
+
+
 atrapado = false
 depurar  = false
 -- ================= FUNCIONES ==========================
@@ -66,22 +45,8 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo = love.graphics.newCanvas(ventana.ancho, ventana.alto)
-    -- Cargar Assets
-    jugador.sprite = love.graphics.newImage("img/Ninja.png")
-    enemigo.sprite = love.graphics.newImage("img/Caballero.png")
-    -- Calcular Altos y Anchos 
-    jugador.ancho = jugador.sprite:getWidth()
-    jugador.alto  = jugador.sprite:getHeight()
-    enemigo.ancho = enemigo.sprite:getWidth()
-    enemigo.alto  = enemigo.sprite:getHeight()
-    -- Calcular Centros
-    jugador.origen_x = jugador.ancho/2
-    jugador.origen_y = jugador.alto/2
-    enemigo.origen_x = enemigo.ancho/2
-    enemigo.origen_y = enemigo.alto/2
-    -- Centrar Jugador
-    jugador.x = ventana.ancho / 2
-    jugador.y = ventana.alto / 2
+    CrearJugador(ventana.ancho / 2,ventana.alto / 2)
+    CrearEnemigo()
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
