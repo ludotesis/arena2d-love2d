@@ -1,23 +1,19 @@
 -- Tabla Enemigo
 enemigo = {
-    y = 100,
-    x = 100,
-    alto = 0,
-    ancho = 0,
-    origen_x = 0,
-    origen_y = 0,
-    hitbox_x = 0,
-    hitbox_y = 0,
-    velocidad = 40,
-    sprite = nil
+   
 }
 -- =================== INICIALIZACION ===================
-function enemigo.Crear(self, img)
+function enemigo.Crear(self,x, y ,img)
+    self.x = x
+    self.y = y
     self.sprite = love.graphics.newImage(img)
     self.ancho = self.sprite:getWidth()
     self.alto  = self.sprite:getHeight()
     self.origen_x = self.ancho/2
     self.origen_y = self.alto/2
+    self.hitbox_x = 0
+    self.hitbox_y = 0
+    self.velocidad = 40
 end
 -- =================== ACTUALIZAR ===================
 function  enemigo.Actualizar(self,x,y,a,dt)
