@@ -34,9 +34,10 @@ end
 function debugHitboxes()
     love.graphics.setColor(1, 0, 0)
     love.graphics.rectangle("line", redondear(jugador.hitbox_x) , redondear(jugador.hitbox_y), jugador.ancho, jugador.alto)
-    --love.graphics.rectangle("line", redondear(Enemigo.hitbox_x), redondear(Enemigo.hitbox_y), Enemigo.ancho, Enemigo.alto)
     love.graphics.circle("fill", redondear(jugador.x), redondear(jugador.y), 1)
-    --love.graphics.circle("fill", redondear(Enemigo.x), redondear(Enemigo.y), 1)
+    enemigo1:Debug()
+    enemigo2:Debug()
+    enemigo3:Debug()
     love.graphics.setColor(1, 1, 1)
 end
 -- =================== INICIALIZACION ===================

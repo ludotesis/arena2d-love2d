@@ -51,6 +51,12 @@ function Enemigo:Dibujar()
     love.graphics.draw(self.sprite,redondear(self.x),redondear(self.y),0, 1, 1, self.origen_x, self.origen_y)
 end
 
+
+-- =================== DEPURAR ===================
+function Enemigo:Debug()
+    love.graphics.rectangle("line", redondear(self.hitbox_x), redondear(self.hitbox_y), self.ancho, self.alto)
+    love.graphics.circle("fill", redondear(self.x), redondear(self.y), 1)
+end
 -- =================== OBJETOS ===================
 --[[
 enemigo1 =
