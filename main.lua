@@ -9,7 +9,7 @@ ventana = {
 }
 
 atrapado = false
-depurar  = false
+depurar  = true
 -- ================= FUNCIONES ==========================
 function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
     return x1 < x2 + ancho2 and
@@ -48,6 +48,8 @@ function love.load()
     
     local segundoEnemigo = enemigo
     segundoEnemigo.Crear(segundoEnemigo, "img/Esqueleto.png")
+
+    enemigo2.crear(enemigo2, "img/Caballero.png")
    
 end
 -- =================== INTERACCION ===================
@@ -69,6 +71,7 @@ function love.update(dt)
     end
 
     enemigo.Actualizar(enemigo, jugador.x, jugador.y, jugador.ancho, dt)
+    enemigo2.actualizar(enemigo2, jugador.x, jugador.y, jugador.ancho, dt)
 
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
@@ -92,6 +95,7 @@ function love.draw()
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
         enemigo.Dibujar(enemigo)
+        enemigo2.dibujar(enemigo2)
         if depurar then
             debugHitboxes()
         end
