@@ -2,7 +2,7 @@
 Enemigo = {}
 Enemigo.__index = Enemigo
 -- =================== INICIALIZACION ===================
-function Enemigo:Nuevo(x, y ,img)
+function Enemigo:Nuevo(x, y,img, v)
     --local o = {}
     local o = setmetatable({}, Enemigo)
 
@@ -15,7 +15,7 @@ function Enemigo:Nuevo(x, y ,img)
     o.origen_y = o.alto/2
     o.hitbox_x = 0
     o.hitbox_y = 0
-    o.velocidad = 40
+    o.velocidad = v
 
     return o
 end
