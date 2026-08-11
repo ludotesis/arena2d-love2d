@@ -67,32 +67,13 @@ function love.update(dt)
     elseif love.keyboard.isDown("up") then
         jugador.y = jugador.y - (jugador.velocidad * dt)
     end
-    -- Persecución
-    local dist_x = math.abs(enemigo.x - jugador.x)
-    local dist_y = math.abs(enemigo.y - jugador.y)
 
-    if dist_x > dist_y then
-        if dist_x > jugador.ancho then
-            if enemigo.x < jugador.x then
-                enemigo.x = enemigo.x + (enemigo.velocidad * dt)
-            elseif enemigo.x > jugador.x then
-                enemigo.x = enemigo.x - (enemigo.velocidad * dt)
-            end
-        end
-    else
-        if dist_y > jugador.alto then
-            if enemigo.y < jugador.y then
-                enemigo.y = enemigo.y + (enemigo.velocidad * dt)
-            elseif enemigo.y > jugador.y then
-                enemigo.y = enemigo.y - (enemigo.velocidad * dt)
-            end
-        end
-    end
+    enemigo.Actualizar(enemigo, jugador.x, jugador.y, jugador.ancho, dt)
+
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
     jugador.hitbox_y = jugador.y - jugador.origen_y
-    enemigo.hitbox_x = enemigo.x - enemigo.origen_x
-    enemigo.hitbox_y = enemigo.y - enemigo.origen_y
+ 
     -- Verificar Colision AABB
     atrapado = comprobarColision(
         jugador.hitbox_x,
