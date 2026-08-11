@@ -47,9 +47,9 @@ function love.load()
     jugador.Crear(ventana.ancho / 2,ventana.alto / 2)
  
     local segundoEnemigo = enemigo
-    segundoEnemigo.Crear(segundoEnemigo, 100 , 100 , "img/Esqueleto.png")
+    segundoEnemigo:Crear(80 , 130 , "img/Esqueleto.png")
 
-    enemigo2.crear(enemigo2,0, 150, "img/Caballero.png")
+    enemigo2:crear(30, 72, "img/Caballero.png")
 
 end
 -- =================== INTERACCION ===================
@@ -70,8 +70,8 @@ function love.update(dt)
         jugador.y = jugador.y - (jugador.velocidad * dt)
     end
 
-    enemigo.Actualizar(enemigo, jugador.x, jugador.y, jugador.ancho, dt)
-    enemigo2.actualizar(enemigo2, jugador.x, jugador.y, jugador.ancho, dt)
+    enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
+    enemigo2:actualizar(jugador.x, jugador.y, jugador.ancho, dt)
 
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
@@ -94,8 +94,8 @@ function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
-        enemigo.Dibujar(enemigo)
-        enemigo2.dibujar(enemigo2)
+        enemigo:Dibujar()
+        enemigo2:dibujar()
         if depurar then
             debugHitboxes()
         end

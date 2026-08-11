@@ -3,7 +3,7 @@ enemigo = {
    
 }
 -- =================== INICIALIZACION ===================
-function enemigo.Crear(self,x, y ,img)
+function enemigo:Crear(x, y ,img)
     self.x = x
     self.y = y
     self.sprite = love.graphics.newImage(img)
@@ -16,7 +16,7 @@ function enemigo.Crear(self,x, y ,img)
     self.velocidad = 40
 end
 -- =================== ACTUALIZAR ===================
-function  enemigo.Actualizar(self,x,y,a,dt)
+function  enemigo:Actualizar(x,y,a,dt)
     -- Persecución
     local dist_x = math.abs(self.x - x)
     local dist_y = math.abs(self.y - y)
@@ -43,7 +43,7 @@ function  enemigo.Actualizar(self,x,y,a,dt)
     self.hitbox_y = self.y - self.origen_y
 end
 -- =================== RENDERIZADO ===================
-function enemigo.Dibujar(self)
+function enemigo:Dibujar()
     love.graphics.draw(self.sprite,redondear(self.x),redondear(self.y),0, 1, 1, self.origen_x, self.origen_y)
 end
 
