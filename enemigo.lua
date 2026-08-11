@@ -1,17 +1,23 @@
 -- =================== "CLASE"  ENEMIGO ===================
 Enemigo = {}
+Enemigo.__index = Enemigo
 -- =================== INICIALIZACION ===================
-function Enemigo:Crear(x, y ,img)
-    self.x = x
-    self.y = y
-    self.sprite = love.graphics.newImage(img)
-    self.ancho = self.sprite:getWidth()
-    self.alto  = self.sprite:getHeight()
-    self.origen_x = self.ancho/2
-    self.origen_y = self.alto/2
-    self.hitbox_x = 0
-    self.hitbox_y = 0
-    self.velocidad = 40
+function Enemigo:Nuevo(x, y ,img)
+    --local o = {}
+    local o = setmetatable({}, Enemigo)
+
+    o.x = x
+    o.y = y
+    o.sprite = love.graphics.newImage(img)
+    o.ancho = o.sprite:getWidth()
+    o.alto  = o.sprite:getHeight()
+    o.origen_x = o.ancho/2
+    o.origen_y = o.alto/2
+    o.hitbox_x = 0
+    o.hitbox_y = 0
+    o.velocidad = 40
+
+    return o
 end
 -- =================== ACTUALIZAR ===================
 function  Enemigo:Actualizar(x,y,a,dt)
@@ -46,6 +52,7 @@ function Enemigo:Dibujar()
 end
 
 -- =================== OBJETOS ===================
+--[[
 enemigo1 =
 {
     crear = Enemigo.Crear,
@@ -66,3 +73,4 @@ enemigo3 =
     actualizar = Enemigo.Actualizar,
     dibujar = Enemigo.Dibujar
 }
+]]

@@ -46,9 +46,9 @@ function love.load()
     lienzo = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     jugador.Crear(ventana.ancho / 2,ventana.alto / 2)
 
-    enemigo1:crear(80, 100, "img/Samurai.png")
-    enemigo2:crear(130, 72, "img/Esqueleto.png")
-    enemigo3:crear(30, 72, "img/Caballero.png")
+    enemigo1 = Enemigo:Nuevo(80, 100, "img/Samurai.png")
+    enemigo2 = Enemigo:Nuevo(130, 72, "img/Esqueleto.png")
+    enemigo3 = Enemigo:Nuevo(30, 72, "img/Caballero.png")
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -69,9 +69,9 @@ function love.update(dt)
     end
 
     --Enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-    enemigo1:actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-    enemigo2:actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-    enemigo3:actualizar(jugador.x, jugador.y, jugador.ancho, dt)
+    enemigo1:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
+    enemigo2:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
+    enemigo3:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
 
     -- Calcular Hitboxes
     jugador.hitbox_x = jugador.x - jugador.origen_x
@@ -94,9 +94,9 @@ function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
-        enemigo1:dibujar()
-        enemigo2:dibujar()
-        enemigo3:dibujar()
+        enemigo1:Dibujar()
+        enemigo2:Dibujar()
+        enemigo3:Dibujar()
         if depurar then
             debugHitboxes()
         end
