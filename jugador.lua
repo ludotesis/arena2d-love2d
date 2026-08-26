@@ -1,18 +1,3 @@
---[[
--- Tabla Jugador
-jugador = {
-    y = 0,
-    x = 0,
-    alto = 0,
-    ancho = 0,
-    origen_x = 0,
-    origen_y = 0,
-    hitbox_x = 0,
-    hitbox_y = 0,
-    velocidad = 72,
-    sprite = nil
-}
-]]
 -- https://github.com/vrld/hump/blob/master/class.lua
 Class = require 'class'
 
@@ -45,6 +30,13 @@ function Jugador:Actualizar(dt)
 
     self.hitbox_x = self.x - self.origen_x
     self.hitbox_y = self.y - self.origen_y
+end
+-- =================== Colision ===================
+function Jugador:Colision(otro_hitbox_x,otro_hitbox_y, otro_ancho, otro_alto)
+   return  self.hitbox_x < otro_hitbox_x + otro_ancho and
+           otro_hitbox_x < self.hitbox_x + self.ancho and
+           self.hitbox_y < otro_hitbox_y + otro_alto and
+           otro_hitbox_y < self.hitbox_y + self.alto
 end
 -- =================== RENDERIZADO ===================
 function Dibujar()

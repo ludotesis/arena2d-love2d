@@ -8,15 +8,13 @@ ventana = {
     escala = 4
 }
 
-atrapado = false
+
 depurar  = true
--- ================= FUNCIONES ==========================
-function comprobarColision(x1, y1, ancho1, alto1, x2, y2, ancho2, alto2)
-    return x1 < x2 + ancho2 and
-           x2 < x1 + ancho1 and
-           y1 < y2 + alto2 and
-           y2 < y1 + alto1
-end
+
+atrapado1 = false
+atrapado2 = false
+atrapado3 = false
+
 
 function redondear(n)
   return math.floor(n + 0.5)
@@ -25,7 +23,7 @@ end
 function debugUI()
     love.graphics.setColor(0, 1, 0)
     love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
-    if atrapado then
+    if atrapado1 or atrapado2 or atrapado3 then
         love.graphics.print("ATRAPADO", 100, 10)
     end
     love.graphics.setColor(1, 1, 1)
@@ -51,9 +49,9 @@ function love.load()
     --enemigo2 = Enemigo:Nuevo(130, 72, "img/Esqueleto.png", 8)
     --enemigo3 = Enemigo:Nuevo(30, 72, "img/Caballero.png", 12)
 
-    enemigo1 = Enemigo(80, 100, "img/Samurai.png", 4)
-    enemigo2 = Enemigo(130, 72, "img/Esqueleto.png", 8)
-    enemigo3 = Enemigo(30, 72, "img/Caballero.png", 12)
+    enemigo1 = Enemigo(80, 100, "img/Samurai.png", 0)
+    enemigo2 = Enemigo(130, 72, "img/Esqueleto.png", 0)
+    enemigo3 = Enemigo(30, 72, "img/Caballero.png", 0)
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -72,15 +70,25 @@ function love.update(dt)
     jugador:Actualizar(dt)
  
     -- Verificar Colision AABB
-    atrapado = comprobarColision(
-        jugador.hitbox_x,
-        jugador.hitbox_y,
-        jugador.ancho,
-        jugador.alto,
+    atrapado1 = jugador:Colision(
         enemigo1.hitbox_x,
         enemigo1.hitbox_y,
         enemigo1.ancho,
         enemigo1.alto
+    )
+
+    atrapado2 = jugador:Colision(
+        enemigo2.hitbox_x,
+        enemigo2.hitbox_y,
+        enemigo2.ancho,
+        enemigo2.alto
+    )
+
+    atrapado3 = jugador:Colision(
+        enemigo3.hitbox_x,
+        enemigo3.hitbox_y,
+        enemigo3.ancho,
+        enemigo3.alto
     )
 end
 
