@@ -5,3 +5,6 @@ require "jugador"
 require "enemigos.enemigo"
 require "enemigos.samurai"
 require "enemigos.caballero"
+-- Importar Estados
+require "estado"
+require "estadoJugar"

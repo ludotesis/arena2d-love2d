@@ -11,6 +11,8 @@ depurar  = true
 enemigos = {}
 atrapado = false
 
+estado = nil
+
 function redondear(n)
   return math.floor(n + 0.5)
 end
@@ -39,13 +41,16 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
-    -- Instancias    
+    -- Instancias  
+    --[[
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
     table.insert(enemigos, Samurai(80, 100, "img/Samurai.png", 10))
     table.insert(enemigos, Enemigo(130, 72, "img/Esqueleto.png", 4))
     table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6))
     table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8))
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
+    ]]
+    estado = EstadoJugar()
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -55,7 +60,7 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
- 
+    --[[
     atrapado = false
 
     jugador:Actualizar(dt)
@@ -73,9 +78,12 @@ function love.update(dt)
             atrapado = true
         end
     end
+    ]]
+    EstadoJugar:actualizar(dt)
 end
 
 function love.draw()
+    --[[
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         jugador:Dibujar()
@@ -92,4 +100,6 @@ function love.draw()
     if depurar then
         debugUI()
     end
+    ]]
+    EstadoJugar:dibujar()
 end
