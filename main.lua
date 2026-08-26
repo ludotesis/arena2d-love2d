@@ -50,13 +50,21 @@ function love.load()
     table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8))
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
     ]]
-    estado = EstadoJugar()
-    --estado = EstadoTitulo()
+    --estado = EstadoJugar()
+    estado = EstadoTitulo()
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
    if key == "f1" then
       depurar = not depurar
+   end
+
+   if key == "return" then
+        estado = EstadoJugar()
+   end
+
+   if key == "escape" then
+        estado = EstadoTitulo()
    end
 end
 
