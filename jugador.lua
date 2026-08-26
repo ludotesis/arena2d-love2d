@@ -39,6 +39,6 @@ function Jugador:Colision(otro_hitbox_x,otro_hitbox_y, otro_ancho, otro_alto)
            otro_hitbox_y < self.hitbox_y + self.alto
 end
 -- =================== RENDERIZADO ===================
-function Dibujar()
-    
+function Jugador:Dibujar()
+    love.graphics.draw(self.sprite,redondear(self.x),redondear(self.y),0,1,1, self.origen_x, self.origen_y)
 end

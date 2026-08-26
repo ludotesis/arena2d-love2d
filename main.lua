@@ -43,12 +43,9 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
+    -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
-
-    --enemigo1 = Enemigo:Nuevo(80, 100, "img/Samurai.png", 4)
-    --enemigo2 = Enemigo:Nuevo(130, 72, "img/Esqueleto.png", 8)
-    --enemigo3 = Enemigo:Nuevo(30, 72, "img/Caballero.png", 12)
-
+    ninjaClone = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
     enemigo1 = Enemigo(80, 100, "img/Samurai.png", 0)
     enemigo2 = Enemigo(130, 72, "img/Esqueleto.png", 0)
     enemigo3 = Enemigo(30, 72, "img/Caballero.png", 0)
@@ -61,15 +58,13 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
-    --Enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
+    --Enemigo:Actualizar
     enemigo1:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
     enemigo2:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
     enemigo3:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-
-    -- Calcular Hitboxes
+    -- Jugador Actualizar
     jugador:Actualizar(dt)
- 
-    -- Verificar Colision AABB
+     -- Verificar Colision AABB
     atrapado1 = jugador:Colision(
         enemigo1.hitbox_x,
         enemigo1.hitbox_y,
@@ -95,7 +90,8 @@ end
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
-        love.graphics.draw(jugador.sprite,redondear(jugador.x),redondear(jugador.y),0,1,1, jugador.origen_x, jugador.origen_y)
+        jugador:Dibujar()
+        ninjaClone:Dibujar()
         enemigo1:Dibujar()
         enemigo2:Dibujar()
         enemigo3:Dibujar()
@@ -103,6 +99,7 @@ function love.draw()
             debugHitboxes()
         end
     love.graphics.setCanvas()
+
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
     if depurar then
         debugUI()
