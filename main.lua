@@ -51,6 +51,7 @@ function love.load()
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
     ]]
     estado = EstadoJugar()
+    --estado = EstadoTitulo()
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -79,7 +80,7 @@ function love.update(dt)
         end
     end
     ]]
-    EstadoJugar:actualizar(dt)
+    estado:actualizar(dt)
 end
 
 function love.draw()
@@ -101,5 +102,5 @@ function love.draw()
         debugUI()
     end
     ]]
-    EstadoJugar:dibujar()
+    estado:dibujar()
 end

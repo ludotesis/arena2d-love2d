@@ -8,3 +8,4 @@ require "enemigos.caballero"
 -- Importar Estados
 require "estado"
 require "estadoJugar"
+require "estadoTitulo"
