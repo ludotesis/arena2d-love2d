@@ -47,9 +47,13 @@ function love.load()
     lienzo = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     jugador.Crear(ventana.ancho / 2,ventana.alto / 2)
 
-    enemigo1 = Enemigo:Nuevo(80, 100, "img/Samurai.png", 4)
-    enemigo2 = Enemigo:Nuevo(130, 72, "img/Esqueleto.png", 8)
-    enemigo3 = Enemigo:Nuevo(30, 72, "img/Caballero.png", 12)
+    --enemigo1 = Enemigo:Nuevo(80, 100, "img/Samurai.png", 4)
+    --enemigo2 = Enemigo:Nuevo(130, 72, "img/Esqueleto.png", 8)
+    --enemigo3 = Enemigo:Nuevo(30, 72, "img/Caballero.png", 12)
+
+    enemigo1 = Enemigo(80, 100, "img/Samurai.png", 4)
+    enemigo2 = Enemigo(130, 72, "img/Esqueleto.png", 8)
+    enemigo3 = Enemigo(30, 72, "img/Caballero.png", 12)
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
