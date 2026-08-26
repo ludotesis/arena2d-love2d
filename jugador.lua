@@ -1,3 +1,4 @@
+--[[
 -- Tabla Jugador
 jugador = {
     y = 0,
@@ -11,15 +12,20 @@ jugador = {
     velocidad = 72,
     sprite = nil
 }
+]]
+-- https://github.com/vrld/hump/blob/master/class.lua
+Class = require 'class'
+
+Jugador = Class{}
 -- =================== INICIALIZACION ===================
-function jugador.Crear(x, y)
-    jugador.sprite = love.graphics.newImage("img/Ninja.png")
-    jugador.ancho = jugador.sprite:getWidth()
-    jugador.alto  = jugador.sprite:getHeight()
-    jugador.origen_x = jugador.ancho/2
-    jugador.origen_y = jugador.alto/2
-    jugador.x = x
-    jugador.y = y
+function Jugador:init(x, y)
+    self.sprite = love.graphics.newImage("img/Ninja.png")
+    self.ancho = self.sprite:getWidth()
+    self.alto  = self.sprite:getHeight()
+    self.origen_x = self.ancho/2
+    self.origen_y = self.alto/2
+    self.x = x
+    self.y = y
 end
 -- =================== ACTUALIZAR ===================
 function Actualizar()

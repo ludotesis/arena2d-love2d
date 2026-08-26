@@ -1,28 +1,10 @@
 -- https://github.com/vrld/hump/blob/master/class.lua
 Class = require 'class'
--- =================== "CLASE"  ENEMIGO ===================
---Enemigo = {}
---Enemigo.__index = Enemigo
+
 Enemigo = Class{}
 -- =================== INICIALIZACION ===================
 --function Enemigo:Nuevo(x, y,img, v)
 function Enemigo:init(x, y,img, v)
-    --local o = {}
-    --local o = setmetatable({}, Enemigo)
-    --[[
-    o.x = x
-    o.y = y
-    o.sprite = love.graphics.newImage(img)
-    o.ancho = o.sprite:getWidth()
-    o.alto  = o.sprite:getHeight()
-    o.origen_x = o.ancho/2
-    o.origen_y = o.alto/2
-    o.hitbox_x = 0
-    o.hitbox_y = 0
-    o.velocidad = v
-
-    return o
-    ]]
     self.x = x
     self.y = y
     self.sprite = love.graphics.newImage(img)
@@ -72,26 +54,3 @@ function Enemigo:Debug()
     love.graphics.rectangle("line", redondear(self.hitbox_x), redondear(self.hitbox_y), self.ancho, self.alto)
     love.graphics.circle("fill", redondear(self.x), redondear(self.y), 1)
 end
--- =================== OBJETOS ===================
---[[
-enemigo1 =
-{
-    crear = Enemigo.Crear,
-    actualizar = Enemigo.Actualizar,
-    dibujar = Enemigo.Dibujar
-}
-
-enemigo2 =
-{
-    crear = Enemigo.Crear,
-    actualizar = Enemigo.Actualizar,
-    dibujar = Enemigo.Dibujar
-}
-
-enemigo3 =
-{
-    crear = Enemigo.Crear,
-    actualizar = Enemigo.Actualizar,
-    dibujar = Enemigo.Dibujar
-}
-]]
