@@ -1,6 +1,3 @@
--- https://github.com/vrld/hump/blob/master/class.lua
-Class = require 'class'
-
 Enemigo = Class{}
 -- =================== INICIALIZACION ===================
 --function Enemigo:Nuevo(x, y,img, v)

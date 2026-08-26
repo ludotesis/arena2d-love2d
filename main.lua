@@ -1,7 +1,4 @@
-require "jugador"
-require "enemigo"
-require "samurai"
-require "caballero"
+require 'dependencias'
 
 ventana = {
     ancho  = 160,

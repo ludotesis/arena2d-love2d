@@ -1,5 +1,5 @@
 -- https://github.com/vrld/hump/blob/master/class.lua
-Class = require 'class'
+Class = require 'lib.class'
 
 Jugador = Class{}
 -- =================== INICIALIZACION ===================
