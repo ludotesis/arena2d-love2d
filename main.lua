@@ -1,23 +1,16 @@
 require "jugador"
 require "enemigo"
 
--- Tabla Ventana
 ventana = {
     ancho  = 160,
     alto   = 144,
     escala = 4
 }
 
-
 depurar  = true
 
 enemigos = {}
 atrapado = false
-
-atrapado1 = false
-atrapado2 = false
-atrapado3 = false
-
 
 function redondear(n)
   return math.floor(n + 0.5)
@@ -36,11 +29,7 @@ function debugHitboxes()
     love.graphics.setColor(1, 0, 0)
     love.graphics.rectangle("line", redondear(jugador.hitbox_x) , redondear(jugador.hitbox_y), jugador.ancho, jugador.alto)
     love.graphics.circle("fill", redondear(jugador.x), redondear(jugador.y), 1)
-    --[[
-    enemigo1:Debug()
-    enemigo2:Debug()
-    enemigo3:Debug()
-    ]]
+
     for i, enemigo in ipairs(enemigos) do
         enemigo:Debug()
     end
@@ -53,16 +42,11 @@ function love.load()
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
-    ninjaClone = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
-    --[[
-    enemigo1 = Enemigo(80, 100, "img/Samurai.png", 0)
-    enemigo2 = Enemigo(130, 72, "img/Esqueleto.png", 0)
-    enemigo3 = Enemigo(30, 72, "img/Caballero.png", 0)
-    ]]
-
     table.insert(enemigos, Enemigo(80, 100, "img/Samurai.png", 0))
     table.insert(enemigos, Enemigo(130, 72, "img/Esqueleto.png", 0))
     table.insert(enemigos, Enemigo(30, 72, "img/Caballero.png", 0))
+    table.insert(enemigos, Enemigo(60, 10, "img/Caballero.png", 0))
+    table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 0))
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -72,53 +56,21 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
-    -- Jugador Actualizar
+ 
+    atrapado = false
+
     jugador:Actualizar(dt)
 
-    --[[
-    -- Verificar Colision AABB
-    atrapado1 = jugador:Colision(
-        enemigo1.hitbox_x,
-        enemigo1.hitbox_y,
-        enemigo1.ancho,
-        enemigo1.alto
-    )
-
-    --Enemigo:Actualizar
-    enemigo1:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-    enemigo2:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-    enemigo3:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-    
-
-    atrapado2 = jugador:Colision(
-        enemigo2.hitbox_x,
-        enemigo2.hitbox_y,
-        enemigo2.ancho,
-        enemigo2.alto
-    )
-
-    atrapado3 = jugador:Colision(
-        enemigo3.hitbox_x,
-        enemigo3.hitbox_y,
-        enemigo3.ancho,
-        enemigo3.alto
-    )
-    ]]
-    atrapado = false
-    local chocando = false
-
     for i, enemigo in ipairs(enemigos) do
-        
+ 
         enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
 
-        local chocando = jugador:Colision(
+        if jugador:Colision(
             enemigo.hitbox_x,
             enemigo.hitbox_y,
             enemigo.ancho,
             enemigo.alto
-        )
-  
-        if chocando then
+        )then
             atrapado = true
         end
     end
@@ -128,12 +80,6 @@ function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
         jugador:Dibujar()
-        --[[
-        ninjaClone:Dibujar()
-        enemigo1:Dibujar()
-        enemigo2:Dibujar()
-        enemigo3:Dibujar()
-        ]]
         for i, enemigo in ipairs(enemigos) do
             enemigo:Dibujar()
         end
