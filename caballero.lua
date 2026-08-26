@@ -1,0 +1,1 @@
+Caballero = Class{__includes = Enemigo}

@@ -1,0 +1,1 @@
+Samurai = Class{__includes = Enemigo}

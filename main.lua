@@ -1,5 +1,7 @@
 require "jugador"
 require "enemigo"
+require "samurai"
+require "caballero"
 
 ventana = {
     ancho  = 160,
@@ -42,10 +44,10 @@ function love.load()
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
-    table.insert(enemigos, Enemigo(80, 100, "img/Samurai.png", 0))
+    table.insert(enemigos, Samurai(80, 100, "img/Samurai.png", 0))
     table.insert(enemigos, Enemigo(130, 72, "img/Esqueleto.png", 0))
-    table.insert(enemigos, Enemigo(30, 72, "img/Caballero.png", 0))
-    table.insert(enemigos, Enemigo(60, 10, "img/Caballero.png", 0))
+    table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 0))
+    table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 0))
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 0))
 end
 -- =================== INTERACCION ===================
