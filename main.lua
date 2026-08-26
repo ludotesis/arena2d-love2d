@@ -45,7 +45,7 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
-    jugador = Jugador(ventana.ancho / 2,ventana.alto / 2)
+    jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
 
     --enemigo1 = Enemigo:Nuevo(80, 100, "img/Samurai.png", 4)
     --enemigo2 = Enemigo:Nuevo(130, 72, "img/Esqueleto.png", 8)
@@ -63,24 +63,13 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
-    if love.keyboard.isDown("right") then
-        jugador.x = jugador.x + (jugador.velocidad * dt)
-    elseif love.keyboard.isDown("left") then
-        jugador.x = jugador.x - (jugador.velocidad * dt)
-    elseif love.keyboard.isDown("down") then
-        jugador.y = jugador.y + (jugador.velocidad * dt)
-    elseif love.keyboard.isDown("up") then
-        jugador.y = jugador.y - (jugador.velocidad * dt)
-    end
-
     --Enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
     enemigo1:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
     enemigo2:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
     enemigo3:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
 
     -- Calcular Hitboxes
-    jugador.hitbox_x = jugador.x - jugador.origen_x
-    jugador.hitbox_y = jugador.y - jugador.origen_y
+    jugador:Actualizar(dt)
  
     -- Verificar Colision AABB
     atrapado = comprobarColision(

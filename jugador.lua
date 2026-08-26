@@ -18,7 +18,7 @@ Class = require 'class'
 
 Jugador = Class{}
 -- =================== INICIALIZACION ===================
-function Jugador:init(x, y)
+function Jugador:init(x, y, v)
     self.sprite = love.graphics.newImage("img/Ninja.png")
     self.ancho = self.sprite:getWidth()
     self.alto  = self.sprite:getHeight()
@@ -26,10 +26,25 @@ function Jugador:init(x, y)
     self.origen_y = self.alto/2
     self.x = x
     self.y = y
+    self.hitbox_x =  self.x - self.origen_x
+    self.hitbox_y =  self.y - self.origen_y
+    self.velocidad = v
 end
 -- =================== ACTUALIZAR ===================
-function Actualizar()
-    
+function Jugador:Actualizar(dt)
+
+    if love.keyboard.isDown("right") then
+        self.x = self.x + (self.velocidad * dt)
+    elseif love.keyboard.isDown("left") then
+        self.x = self.x - (self.velocidad * dt)
+    elseif love.keyboard.isDown("down") then
+        self.y = self.y + (self.velocidad * dt)
+    elseif love.keyboard.isDown("up") then
+        self.y = self.y - (self.velocidad * dt)
+    end
+
+    self.hitbox_x = self.x - self.origen_x
+    self.hitbox_y = self.y - self.origen_y
 end
 -- =================== RENDERIZADO ===================
 function Dibujar()
