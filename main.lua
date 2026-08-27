@@ -38,7 +38,7 @@ function love.load()
         ['derrota']    = function() return EstadoDerrota() end
     }
 
-    MaquinaEstadoGlobal:cambiar('titulo')
+    MaquinaEstadoGlobal:cambiar('titulo', "EL JUEGAZO")
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -53,7 +53,7 @@ function love.keypressed(key, scancode, isrepeat)
 
    if key == "escape" then
         --estado = EstadoTitulo()
-        MaquinaEstadoGlobal:cambiar('titulo')
+        MaquinaEstadoGlobal:cambiar('titulo', "SUSCRIBITE")
    end
 end
 

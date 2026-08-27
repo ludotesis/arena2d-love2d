@@ -3,8 +3,8 @@ EstadoTitulo = Class { __includes = Estado }
 function EstadoTitulo:init()
     self.titulo = "NUEVA ARENA"
 end
-function EstadoTitulo:ingresar()
-    self.titulo = "LUDOTESIS"
+function EstadoTitulo:ingresar(nuevoTitulo)
+    self.titulo = nuevoTitulo
 end
 function EstadoTitulo:salir() end
 function EstadoTitulo:actualizar(dt) end
