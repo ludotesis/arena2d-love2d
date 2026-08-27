@@ -30,9 +30,15 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
-    estado = EstadoTitulo()
+    -- estado = EstadoTitulo()
     -- Objeto Global FSM
-    MaquinaEstadoGlobal = MaquinaEstado {}
+    MaquinaEstadoGlobal = MaquinaEstado{
+        ['titulo']   = function() return EstadoTitulo() end,
+        ['jugar']    = function() return EstadoJugar() end,
+        ['derrota']    = function() return EstadoDerrota() end
+    }
+
+    MaquinaEstadoGlobal:cambiar('titulo')
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -41,18 +47,22 @@ function love.keypressed(key, scancode, isrepeat)
    end
 
    if key == "return" then
-        estado = EstadoJugar()
+        --estado = EstadoJugar()
+        MaquinaEstadoGlobal:cambiar('jugar')
    end
 
    if key == "escape" then
-        estado = EstadoTitulo()
+        --estado = EstadoTitulo()
+        MaquinaEstadoGlobal:cambiar('titulo')
    end
 end
 
 function love.update(dt)
-    estado:actualizar(dt)
+    --estado:actualizar(dt)
+    MaquinaEstadoGlobal:actualizar(dt)
 end
 
 function love.draw()
-    estado:dibujar()
+    --estado:dibujar()
+    MaquinaEstadoGlobal:dibujar(dt)
 end

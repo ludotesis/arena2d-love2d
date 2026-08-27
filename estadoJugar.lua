@@ -29,6 +29,7 @@ function EstadoJugar:actualizar(dt)
             enemigo.alto
         )then
             atrapado = true
+            MaquinaEstadoGlobal:cambiar('derrota')
         end
     end
 end
