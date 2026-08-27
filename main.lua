@@ -31,6 +31,8 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     estado = EstadoTitulo()
+    -- Objeto Global FSM
+    MaquinaEstadoGlobal = MaquinaEstado {}
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
