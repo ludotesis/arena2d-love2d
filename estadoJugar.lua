@@ -3,7 +3,7 @@ EstadoJugar = Class { __includes = Estado }
 function EstadoJugar:init()
     self.enemigos = {}
     self.jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
-    
+
     table.insert(self.enemigos, Samurai(80, 100, "img/Samurai.png", 10))
     table.insert(self.enemigos, Enemigo(130, 72, "img/Esqueleto.png", 4))
     table.insert(self.enemigos, Caballero(30, 72, "img/Caballero.png", 6))
@@ -19,7 +19,7 @@ function EstadoJugar:actualizar(dt)
     self.jugador:Actualizar(dt)
 
     for i, enemigo in ipairs(self.enemigos) do
- 
+
         enemigo:Actualizar(self.jugador.x, self.jugador.y, self.jugador.ancho, dt)
 
         if self.jugador:Colision(
