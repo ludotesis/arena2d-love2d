@@ -13,6 +13,8 @@ atrapado = false
 
 estado = nil
 
+fuente = nil
+
 function redondear(n)
   return math.floor(n + 0.5)
 end
@@ -30,6 +32,8 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
+    --FUENTE
+    fuente = love.graphics.newFont('fuentes/font.ttf', 40)
     -- estado = EstadoTitulo()
     -- Objeto Global FSM
     MaquinaEstadoGlobal = MaquinaEstado{
@@ -38,7 +42,7 @@ function love.load()
         ['derrota']    = function() return EstadoDerrota() end
     }
 
-    MaquinaEstadoGlobal:cambiar('titulo', {titulo = "LUDOTESIS", subtitulo = "SUSCRIBITE"})
+    MaquinaEstadoGlobal:cambiar('titulo', {titulo = "ARENA 2D", subtitulo = "enter para Jugar"})
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
