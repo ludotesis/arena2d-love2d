@@ -11,6 +11,8 @@ depurar  = true
 enemigos = {}
 atrapado = false
 
+mapa = nil
+
 function redondear(n)
   return math.floor(n + 0.5)
 end
@@ -46,6 +48,8 @@ function love.load()
     table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6))
     table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8))
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
+    -- cargar mapa
+    mapa = sti('mapa/arena1.lua')
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -78,6 +82,7 @@ end
 function love.draw()
     love.graphics.setCanvas(lienzo)
         love.graphics.clear()
+        mapa:draw()
         jugador:Dibujar()
         for i, enemigo in ipairs(enemigos) do
             enemigo:Dibujar()
