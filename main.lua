@@ -66,8 +66,8 @@ function love.update(dt)
     atrapado = false
 
     jugador:Actualizar(dt)
-    camara_principal:lookAt(jugador.x, jugador.y)
-
+    --camara_principal:lookAt(jugador.x, jugador.y)
+    camara_principal:lookAt(redondear(jugador.x), redondear(jugador.y))
     for i, enemigo in ipairs(enemigos) do
  
         enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
@@ -86,24 +86,31 @@ function love.update(dt)
 end
 
 function love.draw()
-    --love.graphics.setCanvas(lienzo)
-    love.graphics.clear(0, 0, 0, 1)
-    
-            camara_principal:attach()
-            --mapa:draw()
-            mapa:drawLayer(mapa.layers["Piso"])
-            jugador:Dibujar()
-            for i, enemigo in ipairs(enemigos) do
-                enemigo:Dibujar()
-            end
+  love.graphics.setCanvas(lienzo)
+    love.graphics.clear()
 
-            if depurar then
-                debugHitboxes()
-            end
-            camara_principal:detach()
-    --love.graphics.setCanvas()
+    camara_principal:attach(0, 0, ventana.ancho, ventana.alto)
+        
+        --mapa:draw()
+        if mapa.layers["Piso"] then
+            mapa:drawLayer(mapa.layers["Piso"])
+        end
+        jugador:Dibujar()
+        
+        for i, enemigo in ipairs(enemigos) do
+            enemigo:Dibujar()
+        end
+
+        if depurar then
+            debugHitboxes()
+        end
+        
+    camara_principal:detach()
     
+    love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
+
+    
     if depurar then
         debugUI()
     end
