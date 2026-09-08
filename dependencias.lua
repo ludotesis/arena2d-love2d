@@ -1,6 +1,7 @@
 -- https://github.com/vrld/hump/blob/master/class.lua
 Class = require 'lib.class'
-sti =  require 'lib.sti'
+STI =  require 'lib.sti'
+Camara = require 'lib.camera'
 -- Importar Clases
 require "jugador"
 require "enemigos.enemigo"

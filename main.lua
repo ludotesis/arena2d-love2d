@@ -12,6 +12,7 @@ enemigos = {}
 atrapado = false
 
 mapa = nil
+camara_principal = nil
 
 function redondear(n)
   return math.floor(n + 0.5)
@@ -49,7 +50,9 @@ function love.load()
     table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8))
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
     -- cargar mapa
-    mapa = sti('mapa/arena1.lua')
+    mapa = STI('mapa/arena1.lua')
+    -- crear camara
+    camara_principal = Camara()
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -63,6 +66,7 @@ function love.update(dt)
     atrapado = false
 
     jugador:Actualizar(dt)
+    camara_principal:lookAt(jugador.x, jugador.y)
 
     for i, enemigo in ipairs(enemigos) do
  
@@ -77,22 +81,28 @@ function love.update(dt)
             atrapado = true
         end
     end
+
+
 end
 
 function love.draw()
-    love.graphics.setCanvas(lienzo)
-        love.graphics.clear()
-        mapa:draw()
-        jugador:Dibujar()
-        for i, enemigo in ipairs(enemigos) do
-            enemigo:Dibujar()
-        end
+    --love.graphics.setCanvas(lienzo)
+    love.graphics.clear(0, 0, 0, 1)
+    
+            camara_principal:attach()
+            --mapa:draw()
+            mapa:drawLayer(mapa.layers["Piso"])
+            jugador:Dibujar()
+            for i, enemigo in ipairs(enemigos) do
+                enemigo:Dibujar()
+            end
 
-        if depurar then
-            debugHitboxes()
-        end
-    love.graphics.setCanvas()
-
+            if depurar then
+                debugHitboxes()
+            end
+            camara_principal:detach()
+    --love.graphics.setCanvas()
+    
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
     if depurar then
         debugUI()
