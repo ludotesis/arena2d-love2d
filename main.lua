@@ -82,7 +82,26 @@ function love.update(dt)
         end
     end
 
+    --- limites de camara_principal
+    if camara_principal.x < ventana.ancho * 0.5 then
+        camara_principal.x = ventana.ancho * 0.5
+    end
 
+    if camara_principal.y < ventana.alto * 0.5 then
+        camara_principal.y = ventana.alto * 0.5
+    end
+
+    local mapa_ancho = mapa.width * mapa.tilewidth
+    local mapa_alto  = mapa.height * mapa.tileheight
+
+    if camara_principal.x > (mapa_ancho - ventana.ancho * 0.5) then
+        camara_principal.x = (mapa_ancho - ventana.ancho * 0.5)
+    end
+
+    if camara_principal.y > (mapa_alto - ventana.alto * 0.5) then
+        camara_principal.y = (mapa_alto - ventana.alto * 0.5)
+    end
+    
 end
 
 function love.draw()
@@ -95,7 +114,14 @@ function love.draw()
         if mapa.layers["Piso"] then
             mapa:drawLayer(mapa.layers["Piso"])
         end
+
         jugador:Dibujar()
+
+        if mapa.layers["Deco"] then
+            mapa:drawLayer(mapa.layers["Deco"])
+        end
+
+  
         
         for i, enemigo in ipairs(enemigos) do
             enemigo:Dibujar()
