@@ -3,7 +3,7 @@ Class = require 'lib.class'
 
 Jugador = Class{}
 -- =================== INICIALIZACION ===================
-function Jugador:init(x, y, v)
+function Jugador:init(x, y, v, mundo)
     self.sprite = love.graphics.newImage("img/Ninja.png")
     self.ancho = self.sprite:getWidth()
     self.alto  = self.sprite:getHeight()
@@ -14,6 +14,9 @@ function Jugador:init(x, y, v)
     self.hitbox_x =  self.x - self.origen_x
     self.hitbox_y =  self.y - self.origen_y
     self.velocidad = v
+
+    self.mundo = mundo
+    self.mundo:add(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
 end
 -- =================== ACTUALIZAR ===================
 function Jugador:Actualizar(dt)

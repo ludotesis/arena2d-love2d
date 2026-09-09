@@ -1,8 +1,8 @@
 Caballero = Class{__includes = Enemigo}
 
-function Caballero:init(x, y, img, v)
+function Caballero:init(x, y, img, v, mundo)
 
-    Enemigo.init(self, x, y, img, v)
+    Enemigo.init(self, x, y, img, v, mundo)
 
     self.direccion = 1
     self.temporizador = 0

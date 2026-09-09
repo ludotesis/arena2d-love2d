@@ -1,7 +1,7 @@
 Enemigo = Class{}
 -- =================== INICIALIZACION ===================
 --function Enemigo:Nuevo(x, y,img, v)
-function Enemigo:init(x, y,img, v)
+function Enemigo:init(x, y,img, v, mundo)
     self.x = x
     self.y = y
     self.sprite = love.graphics.newImage(img)
@@ -9,9 +9,14 @@ function Enemigo:init(x, y,img, v)
     self.alto  = self.sprite:getHeight()
     self.origen_x = self.ancho/2
     self.origen_y = self.alto/2
-    self.hitbox_x = 0
-    self.hitbox_y = 0
+    --self.hitbox_x = 0
+    --self.hitbox_y = 0
+    self.hitbox_x = self.x - self.origen_x
+    self.hitbox_y = self.y - self.origen_y
     self.velocidad = v
+
+    self.mundo = mundo
+    self.mundo:add(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
 end
 -- =================== ACTUALIZAR ===================
 function Enemigo:Actualizar(x,y,a,dt)

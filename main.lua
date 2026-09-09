@@ -13,6 +13,7 @@ atrapado = false
 
 mapa = nil
 camara_principal = nil
+mundo = nil
 
 function redondear(n)
   return math.floor(n + 0.5)
@@ -42,13 +43,15 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
+    -- Mundo AABB
+    mundo = Bump.newWorld(16)
     -- Instancias    
-    jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
-    table.insert(enemigos, Samurai(80, 100, "img/Samurai.png", 10))
-    table.insert(enemigos, Enemigo(130, 72, "img/Esqueleto.png", 4))
-    table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6))
-    table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8))
-    table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
+    jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72, mundo)
+    table.insert(enemigos, Samurai(80, 100, "img/Samurai.png", 10, mundo))
+    table.insert(enemigos, Enemigo(130, 72, "img/Esqueleto.png", 4, mundo))
+    table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6, mundo))
+    table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8, mundo))
+    table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6, mundo))
     -- cargar mapa
     mapa = STI('mapa/arena1.lua')
     -- crear camara
@@ -121,18 +124,21 @@ function love.draw()
             mapa:drawLayer(mapa.layers["Deco"])
         end
 
-  
-        
         for i, enemigo in ipairs(enemigos) do
             enemigo:Dibujar()
         end
 
         if depurar then
-            debugHitboxes()
+            --debugHitboxes()
+            local items = mundo:getItems()
+            for _, item in ipairs(items) do
+                local x, y, ancho, alto = mundo:getRect(item)
+                love.graphics.rectangle("line", redondear(x), redondear(y), ancho, alto)
+            end
         end
-        
+
     camara_principal:detach()
-    
+
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
 
