@@ -43,8 +43,17 @@ function love.load()
     love.window.setMode(ventana.ancho * ventana.escala, ventana.alto * ventana.escala)
     love.graphics.setDefaultFilter("nearest", "nearest")
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
+    -- cargar mapa
+    mapa = STI('mapa/arena1.lua')
     -- Mundo AABB
     mundo = Bump.newWorld(16)
+    -- Generar Paredes
+    if mapa.layers["Paredes"] then
+        for _, obj in ipairs(mapa.layers["Paredes"].objects) do
+            obj.es_pared = true
+            mundo:add(obj, obj.x, obj.y, obj.width, obj.height)
+        end
+    end
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72, mundo)
     table.insert(enemigos, Samurai(80, 100, "img/Samurai.png", 10, mundo))
@@ -52,8 +61,6 @@ function love.load()
     table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6, mundo))
     table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8, mundo))
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6, mundo))
-    -- cargar mapa
-    mapa = STI('mapa/arena1.lua')
     -- crear camara
     camara_principal = Camara()
 end

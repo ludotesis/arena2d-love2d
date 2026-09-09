@@ -14,12 +14,17 @@ function Jugador:init(x, y, v, mundo)
     self.hitbox_x =  self.x - self.origen_x
     self.hitbox_y =  self.y - self.origen_y
     self.velocidad = v
+    self.anterior_x = self.x
+    self.anterior_y = self.y
 
     self.mundo = mundo
     self.mundo:add(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
 end
 -- =================== ACTUALIZAR ===================
 function Jugador:Actualizar(dt)
+
+    self.anterior_x = self.x
+    self.anterior_y = self.y
 
     if love.keyboard.isDown("right") then
         self.x = self.x + (self.velocidad * dt)
@@ -49,9 +54,15 @@ function Jugador:Colision()
         local objeto = hitboxes[i]
 
         if objeto ~= self then
-            --if objeto.es_enemigo then
+            if objeto.es_enemigo then
                 return true
-            --end
+            elseif objeto.es_pared then
+                self.x = self.anterior_x
+                self.y = self.anterior_y
+                self.hitbox_x = self.x - self.origen_x
+                self.hitbox_y = self.y - self.origen_y
+                self.mundo:update(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
+            end
         end
     end
     return false

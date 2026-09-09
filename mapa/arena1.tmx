@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="14">
  <editorsettings>
   <export target="arena1.lua" format="lua"/>
  </editorsettings>
@@ -57,4 +57,13 @@
 0,632,633,634,0,0,0,0,0,0,0,0,0,0,0,0,0,0,632,633,634,0,0,0,0,0,0,0,0,0,0,0,0,0,0,632,633,634,0,0
 </data>
  </layer>
+ <objectgroup id="3" name="Paredes">
+  <object id="3" name="P4" x="0" y="0" width="6" height="320"/>
+  <object id="6" name="P3" x="0" y="314" width="640" height="6"/>
+  <object id="8" name="P2" x="0" y="0" width="640" height="6"/>
+  <object id="9" name="P1" x="634" y="0" width="6" height="320"/>
+  <object id="10" name="L1" x="32" y="192" width="16" height="16"/>
+  <object id="12" name="B1" x="160" y="260" width="32" height="10"/>
+  <object id="13" name="L1" x="384" y="32" width="16" height="16"/>
+ </objectgroup>
 </map>

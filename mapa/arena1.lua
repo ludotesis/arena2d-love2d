@@ -9,8 +9,8 @@ return {
   height = 20,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 3,
-  nextobjectid = 1,
+  nextlayerid = 4,
+  nextobjectid = 14,
   properties = {},
   tilesets = {
     {
@@ -151,6 +151,120 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 616, 617, 618, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 616, 617, 618, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 616, 617, 618, 0, 0,
         0, 632, 633, 634, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 632, 633, 634, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 632, 633, 634, 0, 0
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 3,
+      name = "Paredes",
+      class = "",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 3,
+          name = "P4",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 0,
+          width = 6,
+          height = 320,
+          rotation = 0,
+          opacity = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 6,
+          name = "P3",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 314,
+          width = 640,
+          height = 6,
+          rotation = 0,
+          opacity = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 8,
+          name = "P2",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 0,
+          width = 640,
+          height = 6,
+          rotation = 0,
+          opacity = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 9,
+          name = "P1",
+          type = "",
+          shape = "rectangle",
+          x = 634,
+          y = 0,
+          width = 6,
+          height = 320,
+          rotation = 0,
+          opacity = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 10,
+          name = "L1",
+          type = "",
+          shape = "rectangle",
+          x = 32,
+          y = 192,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          opacity = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 12,
+          name = "B1",
+          type = "",
+          shape = "rectangle",
+          x = 160,
+          y = 260,
+          width = 32,
+          height = 10,
+          rotation = 0,
+          opacity = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 13,
+          name = "L1",
+          type = "",
+          shape = "rectangle",
+          x = 384,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          opacity = 1,
+          visible = true,
+          properties = {}
+        }
       }
     }
   }
