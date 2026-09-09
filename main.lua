@@ -65,26 +65,25 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
- 
     atrapado = false
 
     jugador:Actualizar(dt)
     --camara_principal:lookAt(jugador.x, jugador.y)
     camara_principal:lookAt(redondear(jugador.x), redondear(jugador.y))
     for i, enemigo in ipairs(enemigos) do
- 
-        enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-
+         enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
+        --[[
         if jugador:Colision(
             enemigo.hitbox_x,
             enemigo.hitbox_y,
             enemigo.ancho,
             enemigo.alto
         )then
-            atrapado = true
+            
         end
+        ]]
     end
-
+    atrapado = jugador:Colision()
     --- limites de camara_principal
     if camara_principal.x < ventana.ancho * 0.5 then
         camara_principal.x = ventana.ancho * 0.5
@@ -104,7 +103,6 @@ function love.update(dt)
     if camara_principal.y > (mapa_alto - ventana.alto * 0.5) then
         camara_principal.y = (mapa_alto - ventana.alto * 0.5)
     end
-    
 end
 
 function love.draw()
@@ -138,7 +136,6 @@ function love.draw()
         end
 
     camara_principal:detach()
-
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
 

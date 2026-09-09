@@ -23,6 +23,5 @@ function Samurai:Actualizar(x,y,a,dt)
         end
     end
 
-    self.hitbox_x = self.x - self.origen_x
-    self.hitbox_y = self.y - self.origen_y
+    Enemigo.Actualizar(self,x, y, a, dt)
 end

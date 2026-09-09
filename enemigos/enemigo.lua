@@ -22,13 +22,12 @@ end
 function Enemigo:Actualizar(x,y,a,dt)
     self.hitbox_x = self.x - self.origen_x
     self.hitbox_y = self.y - self.origen_y
+    self.mundo:update(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
 end
 -- =================== RENDERIZADO ===================
 function Enemigo:Dibujar()
     love.graphics.draw(self.sprite,redondear(self.x),redondear(self.y),0, 1, 1, self.origen_x, self.origen_y)
 end
-
-
 -- =================== DEPURAR ===================
 function Enemigo:Debug()
     love.graphics.rectangle("line", redondear(self.hitbox_x), redondear(self.hitbox_y), self.ancho, self.alto)

@@ -19,6 +19,5 @@ function Caballero:Actualizar(x, y, a, dt)
         self.temporizador = 0
     end
 
-    self.hitbox_x = self.x - self.origen_x
-    self.hitbox_y = self.y - self.origen_y
+    Enemigo.Actualizar(self,x, y, a, dt)
 end

@@ -33,13 +33,28 @@ function Jugador:Actualizar(dt)
 
     self.hitbox_x = self.x - self.origen_x
     self.hitbox_y = self.y - self.origen_y
+    self.mundo:update(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
 end
 -- =================== Colision ===================
-function Jugador:Colision(otro_hitbox_x,otro_hitbox_y, otro_ancho, otro_alto)
+function Jugador:Colision()
+    --[[
    return  self.hitbox_x < otro_hitbox_x + otro_ancho and
            otro_hitbox_x < self.hitbox_x + self.ancho and
            self.hitbox_y < otro_hitbox_y + otro_alto and
            otro_hitbox_y < self.hitbox_y + self.alto
+    ]]
+    local hitboxes, cantidad = self.mundo:queryRect(self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
+    
+    for i = 1, cantidad do
+        local objeto = hitboxes[i]
+
+        if objeto ~= self then
+            --if objeto.es_enemigo then
+                return true
+            --end
+        end
+    end
+    return false
 end
 -- =================== RENDERIZADO ===================
 function Jugador:Dibujar()
