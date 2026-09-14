@@ -11,6 +11,19 @@ depurar  = true
 enemigos = {}
 atrapado = false
 
+proyectiles = {}
+tiempo_spawn = 0
+intervalo_spawn = 0.5
+
+function generarProyectil()
+    local x = math.random(ventana.ancho * 0.25, ventana.ancho * 0.5)
+    local y = math.random(ventana.alto  * 0.25, ventana.alto  * 0.5)
+    local angulo = math.random() * math.pi * 2
+    local velocidad = math.random(30, 70)
+    local nuevo_proyectil = Proyectil(x, y, angulo, velocidad)
+    table.insert(proyectiles, nuevo_proyectil)
+end
+
 function redondear(n)
   return math.floor(n + 0.5)
 end
@@ -46,6 +59,8 @@ function love.load()
     table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6))
     table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8))
     table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
+    -- Seed
+    math.randomseed(os.time())
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -73,6 +88,20 @@ function love.update(dt)
             atrapado = true
         end
     end
+
+    tiempo_spawn = tiempo_spawn + dt
+    if tiempo_spawn >= intervalo_spawn then
+        generarProyectil()
+        tiempo_spawn = 0 
+    end
+
+    for i = #proyectiles, 1, -1 do
+        local p = proyectiles[i]
+        p:Actualizar(dt)
+        if p.x < 0 or p.x > ventana.ancho or p.y < 0 or p.y > ventana.alto then
+            table.remove(proyectiles, i)
+        end
+    end
 end
 
 function love.draw()
@@ -81,6 +110,10 @@ function love.draw()
         jugador:Dibujar()
         for i, enemigo in ipairs(enemigos) do
             enemigo:Dibujar()
+        end
+
+        for i, p in ipairs(proyectiles) do
+            p:Dibujar()
         end
 
         if depurar then
@@ -92,4 +125,5 @@ function love.draw()
     if depurar then
         debugUI()
     end
+    love.graphics.print("Proyectiles activos: " .. #proyectiles, 10, ventana.ancho)
 end
