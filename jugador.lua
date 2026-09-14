@@ -1,6 +1,3 @@
--- https://github.com/vrld/hump/blob/master/class.lua
-Class = require 'lib.class'
-
 Jugador = Class{}
 -- =================== INICIALIZACION ===================
 function Jugador:init(x, y, v)
