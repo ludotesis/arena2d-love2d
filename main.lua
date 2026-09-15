@@ -12,9 +12,9 @@ enemigos = {}
 atrapado = false
 
 proyectiles = {}
-tiempo_spawn = 0
-intervalo_spawn = 0.5
 
+
+intervalo_spawn = 0.5
 oleada_actual = 0
 
 function generarProyectil()
@@ -46,7 +46,7 @@ function generarOleada(nivel)
         for i = 1, cantidad do
             local fraccion = i / (cantidad + 1)
             local ex = ventana.ancho * fraccion
-            local ey = (i % 2 == 0) and -10 or (ventana.alto + 10)
+            local ey = (i % 2 == 0) and 10 or (ventana.alto - 10)
             table.insert(enemigos, Caballero(ex, ey, "img/Caballero.png", 5 + nivel))
         end
     else
@@ -89,15 +89,10 @@ function love.load()
     lienzo  = love.graphics.newCanvas(ventana.ancho, ventana.alto)
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72)
-    --[[
-    table.insert(enemigos, Samurai(80, 100, "img/Samurai.png", 10))
-    table.insert(enemigos, Enemigo(130, 72, "img/Esqueleto.png", 4))
-    table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6))
-    table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8))
-    table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6))
-    ]]
     -- Seed
     math.randomseed(os.time())
+    -- Timers
+    Timer.every(intervalo_spawn, generarProyectil)
 end
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -107,7 +102,7 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
- 
+    Timer.update(dt)
     if #enemigos == 0 then
         oleada_actual = oleada_actual + 1
         generarOleada(oleada_actual)
@@ -117,8 +112,9 @@ function love.update(dt)
 
     jugador:Actualizar(dt)
 
-    for i, enemigo in ipairs(enemigos) do
- 
+    for i = #enemigos, 1, -1 do
+
+        local enemigo = enemigos[i]
         enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
 
         if jugador:Colision(
@@ -128,13 +124,8 @@ function love.update(dt)
             enemigo.alto
         )then
             atrapado = true
+            table.remove(enemigos, i)
         end
-    end
-
-    tiempo_spawn = tiempo_spawn + dt
-    if tiempo_spawn >= intervalo_spawn then
-        generarProyectil()
-        tiempo_spawn = 0 
     end
 
     for i = #proyectiles, 1, -1 do
@@ -168,4 +159,5 @@ function love.draw()
         debugUI()
     end
     love.graphics.print("Proyectiles activos: " .. #proyectiles, 10, ventana.ancho)
+    love.graphics.print("Oleada: " .. oleada_actual, 10, 25)
 end
