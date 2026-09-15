@@ -15,7 +15,9 @@ proyectiles = {}
 
 
 intervalo_spawn = 0.5
+
 oleada_actual = 0
+esperando_oleada = false
 
 function generarProyectil()
     local x = math.random(ventana.ancho * 0.25, ventana.ancho * 0.5)
@@ -103,9 +105,15 @@ end
 
 function love.update(dt)
     Timer.update(dt)
-    if #enemigos == 0 then
-        oleada_actual = oleada_actual + 1
-        generarOleada(oleada_actual)
+
+    if #enemigos == 0 and not esperando_oleada then
+        esperando_oleada = true
+
+        Timer.after(2, function()
+            oleada_actual = oleada_actual + 1
+            generarOleada(oleada_actual)
+            esperando_oleada = false
+        end)
     end
 
     atrapado = false
