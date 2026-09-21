@@ -4,6 +4,8 @@ STI =  require 'lib.sti'
 Camara = require 'lib.camera'
 Bump = require 'lib.bump'
 Timer = require 'lib.timer'
+-- Modulos
+require "eventos"
 -- Importar Clases
 require "jugador"
 require "enemigos.enemigo"

@@ -22,7 +22,8 @@ function Enemigo:init(x, y,img, v, mundo)
     self.es_enemigo = true
     self.mundo:add(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
 
-    love.handlers.deneterEnemigos = function() self:Detener() end
+    --love.handlers.deneterEnemigos = function() self:Detener() end
+    Eventos.on("deneterEnemigos", function() self:Detener() end)
 end
 -- =================== ACTUALIZAR ===================
 function Enemigo:Actualizar(x,y,a,dt)

@@ -93,8 +93,11 @@ function love.keypressed(key, scancode, isrepeat)
    end
 
    if key == "f2" then
-      love.event.push('deneterEnemigos')
+      --love.event.push('deneterEnemigos')
+      Eventos.emitir("deneterEnemigos")
    end
+
+   
 end
 
 function love.update(dt)
