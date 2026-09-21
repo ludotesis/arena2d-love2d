@@ -24,6 +24,7 @@ function Enemigo:init(x, y,img, v, mundo)
 
     --love.handlers.deneterEnemigos = function() self:Detener() end
     Eventos.on("deneterEnemigos", function() self:Detener() end)
+    Eventos.on("restaurarEnemigos", function() self:Restaurar() end)
 end
 -- =================== ACTUALIZAR ===================
 function Enemigo:Actualizar(x,y,a,dt)
@@ -47,4 +48,9 @@ end
 function Enemigo:Detener()
     self.detenido = true
     self.color = {0, 0, 1, 0.5}
+end
+
+function Enemigo:Restaurar()
+    self.detenido = false
+    self.color = {1, 1, 1, 1}
 end

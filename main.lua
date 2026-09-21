@@ -97,6 +97,11 @@ function love.keypressed(key, scancode, isrepeat)
       Eventos.emitir("deneterEnemigos")
    end
 
+   if key == "f3" then
+      --love.event.push('deneterEnemigos')
+      Eventos.emitir("restaurarEnemigos")
+   end
+
    
 end
 
