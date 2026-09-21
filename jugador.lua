@@ -19,6 +19,7 @@ function Jugador:init(x, y, v, mundo)
 
     self.vidas = 3
     self.invulnerable = false
+    self.color = {1, 1, 1, 1}
 
     love.event.push('actualizarVidas', self.vidas)
 
@@ -56,9 +57,15 @@ function Jugador:Colision()
         if objeto ~= self then
             if not self.invulnerable and objeto.es_enemigo then
                 self.invulnerable = true
-                Timer.after(4, function() self.invulnerable = false end)
-                self.vidas = self.vidas - 1
-                love.event.push('actualizarVidas', self.vidas)
+                self.color = {1, 0, 0, 0.8}
+                Timer.after(2, function()
+                                self.color = {1, 1, 1, 1}
+                                self.invulnerable = false
+                            end)
+                if self.vidas > 0 then
+                    self.vidas = self.vidas - 1
+                    love.event.push('actualizarVidas', self.vidas)    
+                end
                 return true
             elseif objeto.es_pared then
                 self.x = self.anterior_x
@@ -73,5 +80,7 @@ function Jugador:Colision()
 end
 -- =================== RENDERIZADO ===================
 function Jugador:Dibujar()
-    love.graphics.draw(self.sprite,redondear(self.x),redondear(self.y),0,1,1, self.origen_x, self.origen_y)
+    love.graphics.setColor(self.color)
+        love.graphics.draw(self.sprite,redondear(self.x),redondear(self.y),0,1,1, self.origen_x, self.origen_y)
+    love.graphics.setColor(1,1,1)
 end
