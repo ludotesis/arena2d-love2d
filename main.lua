@@ -14,6 +14,7 @@ atrapado = false
 mapa = nil
 camara_principal = nil
 mundo = nil
+hud = nil
 
 textoVida = ""
 
@@ -21,14 +22,7 @@ function redondear(n)
   return math.floor(n + 0.5)
 end
 
-function debugUI()
-    love.graphics.setColor(0, 1, 0)
-    love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
-    if atrapado then
-        love.graphics.print("ATRAPADO", 100, 10)
-    end
-    love.graphics.setColor(1, 1, 1)
-end
+
 
 function debugHitboxes()
     love.graphics.setColor(1, 0, 0)
@@ -56,6 +50,8 @@ function love.load()
             mundo:add(obj, obj.x, obj.y, obj.width, obj.height)
         end
     end
+    -- Instanciar UI
+    hud = HUD(mundo)
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72, mundo)
     -- Leer capa de generación de enemigos (Spawns)
@@ -75,10 +71,12 @@ function love.load()
     -- handlers 
     --love.handlers = nil
     --love.handlers.keypressed = nil
-    love.handlers.modoDebug     = ModoDebug
-    love.handlers.actualizarVidas = UIVidas
+    --love.handlers.modoDebug     = ModoDebug
+    --love.handlers.actualizarVidas = UIVidas
+ 
 end
 
+--[[
 function ModoDebug()
     depurar = not depurar
 end
@@ -86,6 +84,7 @@ end
 function UIVidas(vidas)
     textoVida = "x"..vidas
 end
+]]
 
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
@@ -146,21 +145,21 @@ function love.draw()
         for i, enemigo in ipairs(enemigos) do
             enemigo:Dibujar()
         end
-
+        --[[
         if depurar then
-            local items = mundo:getItems()
-            for _, item in ipairs(items) do
-                local x, y, ancho, alto = mundo:getRect(item)
-                love.graphics.rectangle("line", redondear(x), redondear(y), ancho, alto)
-            end
+            
         end
-
+        ]]
+        hud:DrawHitboxes()
     camara_principal:detach()
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
-    love.graphics.print(textoVida, 300, 10)
-
+    hud:Draw()
+    hud:DrawGameData()
+    --love.graphics.print(textoVida, 300, 10)
+    --[[    
     if depurar then
         debugUI()
     end
+    ]]
 end

@@ -9,3 +9,5 @@ require "jugador"
 require "enemigos.enemigo"
 require "enemigos.samurai"
 require "enemigos.caballero"
+-- Importar UI
+require "hud"
