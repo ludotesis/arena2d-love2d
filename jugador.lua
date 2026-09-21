@@ -18,6 +18,8 @@ function Jugador:init(x, y, v, mundo)
     self.anterior_y = self.y
 
     self.vidas = 3
+    self.invulnerable = false
+
     love.event.push('actualizarVidas', self.vidas)
 
     self.mundo = mundo
@@ -52,7 +54,9 @@ function Jugador:Colision()
         local objeto = hitboxes[i]
 
         if objeto ~= self then
-            if objeto.es_enemigo then
+            if not self.invulnerable and objeto.es_enemigo then
+                self.invulnerable = true
+                Timer.after(4, function() self.invulnerable = false end)
                 self.vidas = self.vidas - 1
                 love.event.push('actualizarVidas', self.vidas)
                 return true

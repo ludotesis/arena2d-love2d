@@ -95,6 +95,8 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
+    Timer.update(dt)
+
     atrapado = false
 
     jugador:Actualizar(dt)
