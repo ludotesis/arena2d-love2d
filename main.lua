@@ -104,6 +104,9 @@ function love.keypressed(key, scancode, isrepeat)
 
    if key == "f4" then
       --love.event.push('deneterEnemigos')
+      --table.remove(enemigos, 1)
+      local enemigo_a_eliminar = enemigos[1]
+      enemigo_a_eliminar:Eliminar()
       table.remove(enemigos, 1)
    end
 end

@@ -25,12 +25,13 @@ function Enemigo:init(x, y,img, v, mundo)
     --love.handlers.deneterEnemigos = function() self:Detener() end
     --Eventos.on("deneterEnemigos", function() self:Detener() end)
     --Eventos.on("restaurarEnemigos", function() self:Restaurar() end)
-    Signal.register("detenerEnemigos", function() self:Detener() end)
-    Signal.register("restaurarEnemigos", function() self:Restaurar() end)
+    --Signal.register("detenerEnemigos", function() self:Detener() end)
+    --Signal.register("restaurarEnemigos", function() self:Restaurar() end)
+    self.signal_detener = Signal.register("detenerEnemigos", function() self:Detener() end)
+    self.signal_restaurar = Signal.register("restaurarEnemigos", function() self:Restaurar() end)
 end
 -- =================== ACTUALIZAR ===================
 function Enemigo:Actualizar(x,y,a,dt)
-
     self.hitbox_x = self.x - self.origen_x
     self.hitbox_y = self.y - self.origen_y
     self.mundo:update(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
@@ -55,4 +56,12 @@ end
 function Enemigo:Restaurar()
     self.detenido = false
     self.color = {1, 1, 1, 1}
+end
+
+function Enemigo:Eliminar()
+    Signal.remove("detenerEnemigos", self.signal_detener)
+    Signal.remove("restaurarEnemigos", self.signal_restaurar)
+    if self.mundo:hasItem(self) then
+        self.mundo:remove(self)
+    end
 end
