@@ -91,6 +91,10 @@ function love.keypressed(key, scancode, isrepeat)
    if key == "f1" then
       love.event.push('modoDebug')
    end
+
+   if key == "f2" then
+      love.event.push('deneterEnemigos')
+   end
 end
 
 function love.update(dt)

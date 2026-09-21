@@ -1,6 +1,7 @@
 Samurai = Class{__includes = Enemigo}
 
 function Samurai:Actualizar(x,y,a,dt)
+    if self.detenido then return end
     -- Persecución
     local dist_x = math.abs(self.x - x)
     local dist_y = math.abs(self.y - y)

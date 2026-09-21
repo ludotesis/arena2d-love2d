@@ -11,6 +11,8 @@ end
 
 function Caballero:Actualizar(x, y, a, dt)
 
+    if self.detenido then return end
+
     self.x = self.x + (self.velocidad * self.direccion * dt)
     self.temporizador = self.temporizador + dt
 
