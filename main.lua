@@ -15,6 +15,8 @@ mapa = nil
 camara_principal = nil
 mundo = nil
 
+textoVida = ""
+
 function redondear(n)
   return math.floor(n + 0.5)
 end
@@ -73,11 +75,16 @@ function love.load()
     -- handlers 
     --love.handlers = nil
     --love.handlers.keypressed = nil
-    love.handlers.modoDebug = ModoDebug
+    love.handlers.modoDebug     = ModoDebug
+    love.handlers.actualizarVidas = UIVidas
 end
 
 function ModoDebug()
     depurar = not depurar
+end
+
+function UIVidas(vidas)
+    textoVida = "x"..vidas
 end
 
 -- =================== INTERACCION ===================
@@ -149,6 +156,7 @@ function love.draw()
     camara_principal:detach()
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
+    love.graphics.print(textoVida, 300, 10)
 
     if depurar then
         debugUI()

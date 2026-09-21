@@ -17,6 +17,9 @@ function Jugador:init(x, y, v, mundo)
     self.anterior_x = self.x
     self.anterior_y = self.y
 
+    self.vidas = 3
+    love.event.push('actualizarVidas', self.vidas)
+
     self.mundo = mundo
     self.mundo:add(self, self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
 end
@@ -42,12 +45,7 @@ function Jugador:Actualizar(dt)
 end
 -- =================== Colision ===================
 function Jugador:Colision()
-    --[[
-   return  self.hitbox_x < otro_hitbox_x + otro_ancho and
-           otro_hitbox_x < self.hitbox_x + self.ancho and
-           self.hitbox_y < otro_hitbox_y + otro_alto and
-           otro_hitbox_y < self.hitbox_y + self.alto
-    ]]
+
     local hitboxes, cantidad = self.mundo:queryRect(self.hitbox_x, self.hitbox_y, self.ancho, self.alto)
     
     for i = 1, cantidad do
@@ -55,6 +53,8 @@ function Jugador:Colision()
 
         if objeto ~= self then
             if objeto.es_enemigo then
+                self.vidas = self.vidas - 1
+                love.event.push('actualizarVidas', self.vidas)
                 return true
             elseif objeto.es_pared then
                 self.x = self.anterior_x
