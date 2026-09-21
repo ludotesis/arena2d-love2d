@@ -6,7 +6,7 @@ ventana = {
     escala = 4
 }
 
-depurar  = true
+depurar  = false
 
 enemigos = {}
 atrapado = false
@@ -56,13 +56,6 @@ function love.load()
     end
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72, mundo)
-    --[[
-    table.insert(enemigos, Samurai(80, 100, "img/Samurai.png", 10, mundo))
-    table.insert(enemigos, Enemigo(130, 72, "img/Esqueleto.png", 4, mundo))
-    table.insert(enemigos, Caballero(30, 72, "img/Caballero.png", 6, mundo))
-    table.insert(enemigos, Caballero(60, 10, "img/Caballero.png", 8, mundo))
-    table.insert(enemigos, Enemigo(100, 10, "img/Esqueleto.png", 6, mundo))
-    ]]
     -- Leer capa de generación de enemigos (Spawns)
     if mapa.layers["Generadores"] then
         for _, obj in ipairs(mapa.layers["Generadores"].objects) do
@@ -78,10 +71,15 @@ function love.load()
     -- crear camara
     camara_principal = Camara()
 end
+
+function love.handlers.modoDebug()
+    depurar = not depurar
+end
+
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
    if key == "f1" then
-      depurar = not depurar
+      love.event.push('modoDebug')
    end
 end
 
@@ -89,20 +87,10 @@ function love.update(dt)
     atrapado = false
 
     jugador:Actualizar(dt)
-    --camara_principal:lookAt(jugador.x, jugador.y)
     camara_principal:lookAt(redondear(jugador.x), redondear(jugador.y))
+
     for i, enemigo in ipairs(enemigos) do
          enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
-        --[[
-        if jugador:Colision(
-            enemigo.hitbox_x,
-            enemigo.hitbox_y,
-            enemigo.ancho,
-            enemigo.alto
-        )then
-            
-        end
-        ]]
     end
     atrapado = jugador:Colision()
     --- limites de camara_principal
@@ -131,8 +119,7 @@ function love.draw()
     love.graphics.clear()
 
     camara_principal:attach(0, 0, ventana.ancho, ventana.alto)
-        
-        --mapa:draw()
+
         if mapa.layers["Piso"] then
             mapa:drawLayer(mapa.layers["Piso"])
         end
@@ -148,7 +135,6 @@ function love.draw()
         end
 
         if depurar then
-            --debugHitboxes()
             local items = mundo:getItems()
             for _, item in ipairs(items) do
                 local x, y, ancho, alto = mundo:getRect(item)
@@ -160,7 +146,6 @@ function love.draw()
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
 
-    
     if depurar then
         debugUI()
     end
