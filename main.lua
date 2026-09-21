@@ -1,11 +1,11 @@
 require 'dependencias'
 
+
 ventana = {
     ancho  = 160,
     alto   = 144,
     escala = 4
 }
-
 depurar  = false
 
 enemigos = {}
@@ -94,15 +94,18 @@ function love.keypressed(key, scancode, isrepeat)
 
    if key == "f2" then
       --love.event.push('deneterEnemigos')
-      Eventos.emitir("deneterEnemigos")
+      Signal.emit("detenerEnemigos")
    end
 
    if key == "f3" then
       --love.event.push('deneterEnemigos')
-      Eventos.emitir("restaurarEnemigos")
+      Signal.emit("restaurarEnemigos")
    end
 
-   
+   if key == "f4" then
+      --love.event.push('deneterEnemigos')
+      table.remove(enemigos, 1)
+   end
 end
 
 function love.update(dt)

@@ -64,8 +64,7 @@ function Jugador:Colision()
                             end)
                 if self.vidas > 0 then
                     self.vidas = self.vidas - 1
-                    love.event.push('actualizarVidas', self.vidas)    
-                end
+                    love.event.push('actualizarVidas', self.vidas)                end
                 return true
             elseif objeto.es_pared then
                 self.x = self.anterior_x
