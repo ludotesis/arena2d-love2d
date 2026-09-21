@@ -70,9 +70,13 @@ function love.load()
     end
     -- crear camara
     camara_principal = Camara()
+    -- handlers 
+    --love.handlers = nil
+    --love.handlers.keypressed = nil
+    love.handlers.modoDebug = ModoDebug
 end
 
-function love.handlers.modoDebug()
+function ModoDebug()
     depurar = not depurar
 end
 
