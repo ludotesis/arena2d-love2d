@@ -28,6 +28,10 @@ esperando_enter = false
 
 local tiempo_espera = 0
 
+en_cinematica = false
+camara_target_x = 0
+camara_target_y = 0
+
 function redondear(n)
   return math.floor(n + 0.5)
 end
@@ -66,7 +70,7 @@ function love.load()
     hud = HUD(mundo)
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72, mundo)
-    npc     = NPC(ventana.ancho / 4,ventana.alto / 4, "img/Npc.png", 0, mundo)
+    npc     = NPC(ventana.ancho,ventana.alto * 2, "img/Npc.png", 0, mundo)
     -- Leer capa de generación de enemigos (Spawns)
     if mapa.layers["Generadores"] then
         for _, obj in ipairs(mapa.layers["Generadores"].objects) do
@@ -80,6 +84,7 @@ function love.load()
        end
     end
     camara_principal = Camara()
+    camara_principal:lookAt(jugador.x, jugador.y)
     -- Fuente
     fuente_npc = love.graphics.newFont("fuentes/1980v23P03.ttf",16,"mono")
     --[[
@@ -100,6 +105,35 @@ function love.load()
     end)
     ]]
     mi_corrutina = coroutine.create(function ()
+
+        en_cinematica = true
+
+        -- 1) Camara -> NPC
+        camara_target_x = npc.x
+        camara_target_y = npc.y
+        coroutine.yield(3)
+
+        -- 2) Camara -> Primer enemigo
+        if enemigos[1] then
+            camara_target_x = enemigos[1].x
+            camara_target_y = enemigos[1].y
+            coroutine.yield(3)
+        end
+        -- 2) Camara -> Tercer enemigo
+
+        if enemigos[3] then
+            camara_target_x = enemigos[3].x
+            camara_target_y = enemigos[3].y
+            coroutine.yield(3)
+        end
+
+        -- 3. Camara -> Jugador
+        camara_target_x = jugador.x
+        camara_target_y = jugador.y
+        coroutine.yield(2)
+
+        en_cinematica = false
+
         texto_npc = "Hola Ninja"
         esperando_enter = true
         coroutine.yield()
@@ -120,7 +154,11 @@ function love.load()
         esperando_enter = false
     end)
 
-    coroutine.resume(mi_corrutina)
+    local exito, senal = coroutine.resume(mi_corrutina)
+
+    if type(senal) == "number" then
+        tiempo_espera = senal
+    end
 end
 
 --[[
@@ -164,7 +202,11 @@ function love.keypressed(key, scancode, isrepeat)
 ]]
     if key == "return" and esperando_enter then
         esperando_enter = false
-        coroutine.resume(mi_corrutina)
+        local exito, senal = coroutine.resume(mi_corrutina)
+
+        if type(senal) == "number" then
+            tiempo_espera = senal
+        end
     end
     
 end
@@ -182,17 +224,36 @@ function love.update(dt)
     end
     ]]
 
+    if tiempo_espera > 0 then
+        tiempo_espera = tiempo_espera - dt
+        if tiempo_espera <= 0 then
+            local exito, senal = coroutine.resume(mi_corrutina)
+            if type(senal) == "number" then
+                tiempo_espera = senal
+            end
+        end
+    end
+
+   
+
     Timer.update(dt)
 
     atrapado = false
 
     jugador:Actualizar(dt)
-    camara_principal:lookAt(redondear(jugador.x), redondear(jugador.y))
 
     for i, enemigo in ipairs(enemigos) do
          enemigo:Actualizar(jugador.x, jugador.y, jugador.ancho, dt)
     end
     atrapado = jugador:Colision()
+
+    if en_cinematica then
+        local vel = 2 
+        camara_principal.x = camara_principal.x + (camara_target_x - camara_principal.x) * dt * vel
+        camara_principal.y = camara_principal.y + (camara_target_y - camara_principal.y) * dt * vel
+    else
+        camara_principal:lookAt(redondear(jugador.x), redondear(jugador.y))
+    end
     --- limites de camara_principal
     if camara_principal.x < ventana.ancho * 0.5 then
         camara_principal.x = ventana.ancho * 0.5
@@ -226,7 +287,7 @@ function love.draw()
 
         npc:Dibujar()
         love.graphics.setFont(fuente_npc)
-        love.graphics.print(texto_npc, npc.origen_x, npc.origen_y)
+        love.graphics.print(texto_npc, npc.hitbox_x - npc.origen_x, npc.y - npc.alto * 1.25)
         jugador:Dibujar()
 
 
