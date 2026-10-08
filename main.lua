@@ -19,11 +19,12 @@ hud = nil
 
 textoVida = ""
 
+texto_npc = ""
+callback_teclado = nil
+
 function redondear(n)
   return math.floor(n + 0.5)
 end
-
-
 
 function debugHitboxes()
     love.graphics.setColor(1, 0, 0)
@@ -34,6 +35,10 @@ function debugHitboxes()
         enemigo:Debug()
     end
     love.graphics.setColor(1, 1, 1)
+end
+
+local function esperarEnter(callback)
+    callback_teclado = callback
 end
 -- =================== INICIALIZACION ===================
 function love.load()
@@ -73,14 +78,18 @@ function love.load()
     fuente_npc = love.graphics.newFont("fuentes/1980v23P03.ttf",16,"mono")
     texto_npc = "Hola Ninja"
     Timer.after(1.5, function()
-        texto_npc = "Ayudame..."
-        Timer.after(1.5, function()
-            texto_npc = "Hay muchos enemigos..."
-            Timer.after(1.5, function()
-                texto_npc = "Vienen los Samurai"
+        texto_npc = "Ayudame... (Enter)"
+        esperarEnter(function()
+            Timer.after(1, function()
+                texto_npc = "Los enemigos :( (Enter)"
+                esperarEnter(function()
+                    Timer.after(1, function()
+                        texto_npc = "Un Samurai :O"
+                    end)
+                end)
             end)
         end)
-    end) 
+    end)
 end
 
 --[[
@@ -92,7 +101,6 @@ function UIVidas(vidas)
     textoVida = "x"..vidas
 end
 ]]
-
 -- =================== INTERACCION ===================
 function love.keypressed(key, scancode, isrepeat)
    if key == "f1" then
@@ -116,6 +124,12 @@ function love.keypressed(key, scancode, isrepeat)
       enemigo_a_eliminar:Eliminar()
       table.remove(enemigos, 1)
    end
+
+   if key == "return" and callback_teclado then
+        local accion = callback_teclado
+        callback_teclado = nil
+        accion()
+    end
 end
 
 function love.update(dt)
@@ -180,5 +194,5 @@ function love.draw()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
     hud:Draw()
     hud:DrawGameData()
-    
+
 end
