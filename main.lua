@@ -19,8 +19,12 @@ hud = nil
 
 textoVida = ""
 
-texto_npc = ""
+
 callback_teclado = nil
+
+texto_npc = ""
+mi_corrutina = nil
+local tiempo_espera = 0
 
 function redondear(n)
   return math.floor(n + 0.5)
@@ -76,9 +80,11 @@ function love.load()
     camara_principal = Camara()
     -- Fuente
     fuente_npc = love.graphics.newFont("fuentes/1980v23P03.ttf",16,"mono")
+    --[[
     texto_npc = "Hola Ninja"
     Timer.after(1.5, function()
         texto_npc = "Ayudame... (Enter)"
+
         esperarEnter(function()
             Timer.after(1, function()
                 texto_npc = "Los enemigos :( (Enter)"
@@ -90,6 +96,19 @@ function love.load()
             end)
         end)
     end)
+    ]]
+    mi_corrutina = coroutine.create(function ()
+        texto_npc = "Hola Ninja"
+        coroutine.yield(1.5)
+        texto_npc = "Ayudame..."
+        coroutine.yield(1.5)
+        texto_npc = "Hay muchos enemigos..."
+        coroutine.yield(1.5)
+        texto_npc = "Vienen los Samurai"
+    end)
+
+    local exito, tiempo = coroutine.resume(mi_corrutina)
+    tiempo_espera = tiempo
 end
 
 --[[
@@ -133,6 +152,17 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.update(dt)
+
+   if tiempo_espera > 0 then
+        tiempo_espera = tiempo_espera - dt
+        if tiempo_espera <= 0 and coroutine.status(mi_corrutina) ~= "dead" then
+           local exito, tiempo = coroutine.resume(mi_corrutina)
+           if tiempo then
+                tiempo_espera = tiempo
+            end
+        end
+    end
+
     Timer.update(dt)
 
     atrapado = false
