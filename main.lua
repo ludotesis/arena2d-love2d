@@ -69,6 +69,18 @@ function love.load()
        end
     end
     camara_principal = Camara()
+    -- Fuente
+    fuente_npc = love.graphics.newFont("fuentes/1980v23P03.ttf",16,"mono")
+    texto_npc = "Hola Ninja"
+    Timer.after(1.5, function()
+        texto_npc = "Ayudame..."
+        Timer.after(1.5, function()
+            texto_npc = "Hay muchos enemigos..."
+            Timer.after(1.5, function()
+                texto_npc = "Vienen los Samurai"
+            end)
+        end)
+    end) 
 end
 
 --[[
@@ -150,6 +162,8 @@ function love.draw()
         end
 
         npc:Dibujar()
+        love.graphics.setFont(fuente_npc)
+        love.graphics.print(texto_npc, npc.origen_x, npc.origen_y)
         jugador:Dibujar()
 
 
@@ -166,4 +180,5 @@ function love.draw()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
     hud:Draw()
     hud:DrawGameData()
+    
 end
