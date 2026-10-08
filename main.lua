@@ -24,6 +24,8 @@ callback_teclado = nil
 
 texto_npc = ""
 mi_corrutina = nil
+esperando_enter = false
+
 local tiempo_espera = 0
 
 function redondear(n)
@@ -99,16 +101,26 @@ function love.load()
     ]]
     mi_corrutina = coroutine.create(function ()
         texto_npc = "Hola Ninja"
-        coroutine.yield(1.5)
+        esperando_enter = true
+        coroutine.yield()
+
         texto_npc = "Ayudame..."
-        coroutine.yield(1.5)
+        esperando_enter = true
+        coroutine.yield()
+
         texto_npc = "Hay muchos enemigos..."
-        coroutine.yield(1.5)
+        esperando_enter = true
+        coroutine.yield()
+
         texto_npc = "Vienen los Samurai"
+        esperando_enter = true
+        coroutine.yield()
+
+        texto_npc = ""
+        esperando_enter = false
     end)
 
-    local exito, tiempo = coroutine.resume(mi_corrutina)
-    tiempo_espera = tiempo
+    coroutine.resume(mi_corrutina)
 end
 
 --[[
@@ -143,16 +155,22 @@ function love.keypressed(key, scancode, isrepeat)
       enemigo_a_eliminar:Eliminar()
       table.remove(enemigos, 1)
    end
-
+--[[
    if key == "return" and callback_teclado then
         local accion = callback_teclado
         callback_teclado = nil
         accion()
     end
+]]
+    if key == "return" and esperando_enter then
+        esperando_enter = false
+        coroutine.resume(mi_corrutina)
+    end
+    
 end
 
 function love.update(dt)
-
+--[[
    if tiempo_espera > 0 then
         tiempo_espera = tiempo_espera - dt
         if tiempo_espera <= 0 and coroutine.status(mi_corrutina) ~= "dead" then
@@ -162,6 +180,7 @@ function love.update(dt)
             end
         end
     end
+    ]]
 
     Timer.update(dt)
 
