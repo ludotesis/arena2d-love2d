@@ -6,6 +6,7 @@ ventana = {
     alto   = 144,
     escala = 4
 }
+
 depurar  = false
 
 enemigos = {}
@@ -54,6 +55,7 @@ function love.load()
     hud = HUD(mundo)
     -- Instancias    
     jugador = Jugador(ventana.ancho / 2,ventana.alto / 2, 72, mundo)
+    npc     = NPC(ventana.ancho / 4,ventana.alto / 4, "img/Npc.png", 0, mundo)
     -- Leer capa de generación de enemigos (Spawns)
     if mapa.layers["Generadores"] then
         for _, obj in ipairs(mapa.layers["Generadores"].objects) do
@@ -66,14 +68,7 @@ function love.load()
             end
        end
     end
-    -- crear camara
     camara_principal = Camara()
-    -- handlers 
-    --love.handlers = nil
-    --love.handlers.keypressed = nil
-    --love.handlers.modoDebug     = ModoDebug
-    --love.handlers.actualizarVidas = UIVidas
- 
 end
 
 --[[
@@ -154,7 +149,9 @@ function love.draw()
             mapa:drawLayer(mapa.layers["Piso"])
         end
 
+        npc:Dibujar()
         jugador:Dibujar()
+
 
         if mapa.layers["Deco"] then
             mapa:drawLayer(mapa.layers["Deco"])
@@ -163,21 +160,10 @@ function love.draw()
         for i, enemigo in ipairs(enemigos) do
             enemigo:Dibujar()
         end
-        --[[
-        if depurar then
-            
-        end
-        ]]
         hud:DrawHitboxes()
     camara_principal:detach()
     love.graphics.setCanvas()
     love.graphics.draw(lienzo, 0, 0, 0, ventana.escala, ventana.escala)
     hud:Draw()
     hud:DrawGameData()
-    --love.graphics.print(textoVida, 300, 10)
-    --[[    
-    if depurar then
-        debugUI()
-    end
-    ]]
 end

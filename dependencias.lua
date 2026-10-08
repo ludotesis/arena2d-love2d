@@ -13,5 +13,6 @@ require "jugador"
 require "enemigos.enemigo"
 require "enemigos.samurai"
 require "enemigos.caballero"
+require "npc"
 -- Importar UI
 require "hud"
